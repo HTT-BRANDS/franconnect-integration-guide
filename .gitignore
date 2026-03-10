@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.log
+encrypted/
+guide-redesigned.html
+guide.html
+franconnect-guide-build-prompt.md
+DESIGN_SYSTEM.md
+research/
