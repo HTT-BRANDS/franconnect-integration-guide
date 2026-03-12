@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FranConnect Integration - Cloud Flow Troubleshooting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+            color: #444;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        /* Quick Checks */
+        .quick-checks {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .quick-checks ol {
+            padding-left: 25px;
+        }
+
+        .quick-checks li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .quick-checks li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tier Styling */
+        .tier {
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tier-red {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+        }
+
+        .tier-amber {
+            background: #fffbeb;
+            border-left: 4px solid #d97706;
+        }
+
+        .tier-green {
+            background: #f0fdf4;
+            border-left: 4px solid #16a34a;
+        }
+
+        .tier-header {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tier-red .tier-header { color: #dc2626; }
+        .tier-amber .tier-header { color: #d97706; }
+        .tier-green .tier-header { color: #16a34a; }
+
+        .tier-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Issue Cards */
+        .issue {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .issue:last-child {
+            margin-bottom: 0;
+        }
+
+        .issue-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .issue-number {
+            background: #374151;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .issue-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .issue-content li {
+            margin-bottom: 8px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .issue-content li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #6b7280;
+        }
+
+        .check-item::before {
+            content: "☐" !important;
+            color: #9ca3af !important;
+        }
+
+        .fix-item::before {
+            content: "🔧" !important;
+        }
+
+        .alert-item::before {
+            content: "⚠️" !important;
+        }
+
+        /* Decision Table */
+        .decision-table {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 25px 30px;
+        }
+
+        footer p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 25px 20px;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Utility */
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .critical {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 FranConnect Integration - Cloud Flow Troubleshooting</h1>
+            <p>Quick diagnostic guide for when Power Automate flows aren't working</p>
+        </header>
+
+        <main>
+            <!-- 5 Quick Checks -->
+            <section>
+                <h2>⚡ 5 Quick Checks (Do These First!)</h2>
+                <div class="quick-checks">
+                    <ol>
+                        <li>Are both flows turned <strong>ON</strong>? (green check vs gray off)</li>
+                        <li>Is Office 365 connection showing <strong>"Connected"</strong>?</li>
+                        <li>Are HubSpot emails in <strong>Inbox</strong> (not Junk)?</li>
+                        <li>Are HubSpot workflows showing <strong>"On"</strong> with enrollment history?</li>
+                        <li>Do flows use correct trigger <strong>"When a new email arrives in a shared mailbox (V2)"</strong>?</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Tier 1: Most Likely -->
+            <section>
+                <h2>🔴 Tier 1: Most Likely (80% of cases)</h2>
+                
+                <div class="tier tier-red">
+                    <div class="tier-header">
+                        <span class="tier-icon">🚨</span>
+                        Check These First
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">1</span>
+                            Flows Not Turned On
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item"><strong>Check:</strong> <code>make.powerautomate.com</code> → Solutions → Cloud flows tab</li>
+                                <li class="check-item">Look for <span class="highlight">"Off"</span> (gray) vs <span class="highlight" style="background: #d1fae5;">"On"</span> (green)</li>
+                                <li class="fix-item"><strong>Fix:</strong> Click <code>...</code> menu → Turn on</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">2</span>
+                            Connection Not Authenticated
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item"><strong>Check:</strong> Data → Connections</li>
+                                <li class="check-item">Look for <span class="critical">"Can't sign in"</span></li>
+                                <li class="fix-item"><strong>Fix:</strong> Click "Fix connection" and re-authenticate</li>
+                                <li class="fix-item">If still won't turn on: Share connection with "Can use" permission</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">3</span>
+                            Emails Landing in Junk
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item"><strong>Check:</strong> Open shared mailbox Junk Email folder</li>
+                                <li class="alert-item"><span class="critical">Critical:</span> Power Automate ONLY monitors Inbox, not Junk!</li>
+                                <li class="fix-item"><strong>Fix:</strong> Go to <code>security.microsoft.com/tenantAllowBlockList</code></li>
+                                <li class="fix-item">Add <code>hubspotemail.net</code> as allowed sender</li>
+                                <li class="fix-item">Alternative: Create mail flow rule with <code>SCL=-1</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tier 2: Likely if Tier 1 Fails -->
+            <section>
+                <h2>🟡 Tier 2: Likely If Tier 1 Fails</h2>
+                
+                <div class="tier tier-amber">
+                    <div class="tier-header">
+                        <span class="tier-icon">⚠️</span>
+                        Secondary Checks
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">4</span>
+                            Wrong Email Trigger
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item"><strong>Must use:</strong> <code>"When a new email arrives in a shared mailbox (V2)"</code></li>
+                                <li class="alert-item"><strong>NOT:</strong> <code>"When a new email arrives (V3)"</code></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">5</span>
+                            Environment Variables Wrong
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item"><strong>Check:</strong> Solutions → Environment variables</li>
+                                <li class="check-item">Verify 4 email addresses (no typos)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">6</span>
+                            Permissions Not Propagated
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item">Wait <strong>2 hours</strong> after granting Full Access</li>
+                                <li class="fix-item">Then delete/recreate connection</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="issue">
+                        <div class="issue-title">
+                            <span class="issue-number">7</span>
+                            HubSpot Workflows Not Running
+                        </div>
+                        <div class="issue-content">
+                            <ul>
+                                <li class="check-item"><strong>Check:</strong> Automation → Workflows showing <strong>"On"</strong></li>
+                                <li class="check-item">Check History tab for enrollments</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tier 3: Less Likely -->
+            <section>
+                <h2>🟢 Tier 3: Less Likely</h2>
+                
+                <div class="tier tier-green">
+                    <div class="tier-header">
+                        <span class="tier-icon">🔍</span>
+                        Advanced / Edge Cases
+                    </div>
+                    
+                    <div class="issue-content">
+                        <ul>
+                            <li>Conditional Access / MFA issues</li>
+                            <li>OAuth consent blocked</li>
+                            <li>Solution import failed</li>
+                            <li>ZAP (Zero-hour Auto Purge)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Decision Table -->
+            <section>
+                <h2>📋 Quick Decision Table</h2>
+                <div class="decision-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symptom</th>
+                                <th>Most Likely Issue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Flows show "Off"</td>
+                                <td><strong>Issue #1</strong></td>
+                            </tr>
+                            <tr>
+                                <td>"Can't sign in"</td>
+                                <td><strong>Issue #2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Emails in Junk</td>
+                                <td><strong>Issue #3</strong></td>
+                            </tr>
+                            <tr>
+                                <td>No emails at all</td>
+                                <td><strong>Issue #7</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Flow runs but no action</td>
+                                <td><strong>Issue #4</strong> or <strong>#5</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>📧 Still stuck? Email Tyler with screenshots</p>
+        </footer>
+    </div>
+</body>
+</html>
