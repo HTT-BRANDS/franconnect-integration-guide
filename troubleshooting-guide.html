@@ -3,488 +3,811 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FranConnect Integration - Cloud Flow Troubleshooting</title>
+    <title>Troubleshooting Cloud Flow Issues | HTT Brands</title>
     <style>
+        :root {
+            /* HTT Brands Design System Colors */
+            --color-primary: #0d7b70;
+            --color-primary-dark: #096b62;
+            --color-primary-light: #0d9b8e;
+            --color-secondary: #1a1a2e;
+            --color-secondary-light: #2a2a4a;
+            
+            /* Semantic Colors */
+            --color-red: #dc2626;
+            --color-red-bg: #fef2f2;
+            --color-amber: #d97706;
+            --color-amber-bg: #fffbeb;
+            --color-green: #059669;
+            --color-green-bg: #f0fdf4;
+            --color-blue: #2563eb;
+            --color-blue-bg: #eff6ff;
+            
+            /* Neutral */
+            --color-white: #ffffff;
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            
+            /* Typography */
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f5f7fa;
-            padding: 20px;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--color-gray-800);
+            background: var(--color-gray-100);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-secondary);
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
 
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
         }
 
-        header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--color-white);
+            font-size: 0.875rem;
             font-weight: 600;
-        }
-
-        header p {
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-lg);
             opacity: 0.9;
-            font-size: 1rem;
         }
 
-        main {
-            padding: 30px;
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--color-primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
         }
 
-        section {
-            margin-bottom: 35px;
+        .header h1 {
+            color: var(--color-white);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            line-height: 1.2;
         }
 
-        h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
-            color: #444;
+        .header-subtitle {
+            color: var(--color-gray-400);
+            font-size: 1.125rem;
+            font-weight: 400;
         }
 
-        h3 {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: #333;
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            flex: 1;
+        }
+
+        .card-title h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-title p {
+            font-size: 0.875rem;
+            color: var(--color-gray-500);
         }
 
         /* Quick Checks */
-        .quick-checks {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
+        .quick-checks-list {
+            list-style: none;
+            counter-reset: check;
         }
 
-        .quick-checks ol {
-            padding-left: 25px;
+        .quick-checks-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--color-gray-200);
         }
 
-        .quick-checks li {
-            margin-bottom: 10px;
-            padding-left: 5px;
+        .quick-checks-list li:last-child {
+            border-bottom: none;
         }
 
-        .quick-checks li:last-child {
-            margin-bottom: 0;
+        .quick-checks-list li::before {
+            counter-increment: check;
+            content: counter(check);
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
         }
 
-        /* Tier Styling */
+        .quick-checks-list li div {
+            padding-top: 0.25rem;
+        }
+
+        /* Tiers */
         .tier {
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
         }
 
         .tier-red {
-            background: #fef2f2;
-            border-left: 4px solid #dc2626;
+            background: var(--color-red-bg);
+            border-left: 4px solid var(--color-red);
         }
 
         .tier-amber {
-            background: #fffbeb;
-            border-left: 4px solid #d97706;
+            background: var(--color-amber-bg);
+            border-left: 4px solid var(--color-amber);
         }
 
         .tier-green {
-            background: #f0fdf4;
-            border-left: 4px solid #16a34a;
+            background: var(--color-green-bg);
+            border-left: 4px solid var(--color-green);
+        }
+
+        .tier-blue {
+            background: var(--color-blue-bg);
+            border-left: 4px solid var(--color-blue);
         }
 
         .tier-header {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--space-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: var(--space-md);
         }
 
-        .tier-red .tier-header { color: #dc2626; }
-        .tier-amber .tier-header { color: #d97706; }
-        .tier-green .tier-header { color: #16a34a; }
+        .tier-red .tier-header { color: var(--color-red); }
+        .tier-amber .tier-header { color: var(--color-amber); }
+        .tier-green .tier-header { color: var(--color-green); }
+        .tier-blue .tier-header { color: var(--color-blue); }
 
         .tier-icon {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
         }
 
         /* Issue Cards */
-        .issue {
-            background: white;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        .issue-card {
+            background: var(--color-white);
+            border-radius: var(--radius);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-gray-200);
         }
 
-        .issue:last-child {
+        .issue-card:last-child {
             margin-bottom: 0;
         }
 
-        .issue-title {
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 10px;
+        .issue-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-sm);
         }
 
         .issue-number {
-            background: #374151;
-            color: white;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
+            background: var(--color-secondary);
+            color: var(--color-white);
             border-radius: 50%;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
+        }
+
+        .issue-title {
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .issue-content {
+            padding-left: 36px;
         }
 
         .issue-content ul {
             list-style: none;
-            padding-left: 0;
         }
 
         .issue-content li {
-            margin-bottom: 8px;
+            margin-bottom: var(--space-sm);
             padding-left: 24px;
             position: relative;
+            color: var(--color-gray-700);
+        }
+
+        .issue-content li:last-child {
+            margin-bottom: 0;
         }
 
         .issue-content li::before {
-            content: "→";
             position: absolute;
             left: 0;
-            color: #6b7280;
+            font-weight: 600;
         }
 
         .check-item::before {
-            content: "☐" !important;
-            color: #9ca3af !important;
+            content: "\2611";
+            color: var(--color-primary);
         }
 
         .fix-item::before {
-            content: "🔧" !important;
+            content: "\2692";
         }
 
         .alert-item::before {
-            content: "⚠️" !important;
+            content: "\26a0";
+            color: var(--color-amber);
         }
 
         /* Decision Table */
-        .decision-table {
+        .table-container {
             overflow-x: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-gray-200);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            background: var(--color-white);
         }
 
         th, td {
-            padding: 12px 15px;
+            padding: var(--space-md);
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--color-gray-200);
         }
 
         th {
-            background: #f9fafb;
+            background: var(--color-secondary);
+            color: var(--color-white);
             font-weight: 600;
-            color: #374151;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        th:first-child {
+            border-top-left-radius: var(--radius);
+        }
+
+        th:last-child {
+            border-top-right-radius: var(--radius);
         }
 
         tr:hover {
-            background: #f9fafb;
+            background: var(--color-gray-50);
         }
 
-        /* Footer */
-        footer {
-            background: #1f2937;
-            color: white;
-            text-align: center;
-            padding: 25px 30px;
+        td {
+            color: var(--color-gray-700);
         }
 
-        footer p {
-            opacity: 0.9;
-            font-size: 0.95rem;
+        td strong {
+            color: var(--color-gray-900);
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-
-            header {
-                padding: 25px 20px;
-            }
-
-            header h1 {
-                font-size: 1.4rem;
-            }
-
-            main {
-                padding: 20px;
-            }
-
-            th, td {
-                padding: 10px;
-                font-size: 0.9rem;
-            }
+        /* Code & Highlight */
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.875em;
+            background: var(--color-gray-100);
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-sm);
+            color: var(--color-gray-800);
         }
 
-        /* Utility */
         .highlight {
-            background: #fef3c7;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
-
-        .critical {
-            color: #dc2626;
+            background: var(--color-amber-bg);
+            color: var(--color-amber);
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-sm);
             font-weight: 600;
         }
 
-        code {
-            background: #f3f4f6;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9em;
+        .highlight-green {
+            background: var(--color-green-bg);
+            color: var(--color-green);
+        }
+
+        .critical {
+            color: var(--color-red);
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-secondary);
+            color: var(--color-white);
+            padding: var(--space-xl);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            opacity: 0.9;
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer a {
+            color: var(--color-primary-light);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: var(--color-white);
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid var(--color-gray-200);
+                break-inside: avoid;
+            }
+
+            .tier {
+                break-inside: avoid;
+            }
+
+            .issue-card {
+                break-inside: avoid;
+            }
+
+            .header {
+                background: var(--color-secondary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .tier-red,
+            .tier-amber,
+            .tier-green,
+            .tier-blue {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            th {
+                background: var(--color-secondary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .header {
+                padding: var(--space-xl) var(--space-md);
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: var(--space-md);
+            }
+
+            .card {
+                padding: var(--space-md);
+            }
+
+            .card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.25rem;
+            }
+
+            .card-title h2 {
+                font-size: 1.125rem;
+            }
+
+            th, td {
+                padding: var(--space-sm);
+                font-size: 0.875rem;
+            }
+
+            .issue-content {
+                padding-left: 0;
+                padding-top: var(--space-sm);
+            }
+
+            .issue-header {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔄 FranConnect Integration - Cloud Flow Troubleshooting</h1>
-            <p>Quick diagnostic guide for when Power Automate flows aren't working</p>
-        </header>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="brand-badge">
+                <div class="brand-icon">&#128075;</div>
+                <span>HTT Brands</span>
+            </div>
+            <h1>Troubleshooting Cloud Flow Issues</h1>
+            <p class="header-subtitle">Quick diagnostic guide for Power Automate</p>
+        </div>
+    </header>
 
-        <main>
-            <!-- 5 Quick Checks -->
-            <section>
-                <h2>⚡ 5 Quick Checks (Do These First!)</h2>
-                <div class="quick-checks">
-                    <ol>
-                        <li>Are both flows turned <strong>ON</strong>? (green check vs gray off)</li>
-                        <li>Is Office 365 connection showing <strong>"Connected"</strong>?</li>
-                        <li>Are HubSpot emails in <strong>Inbox</strong> (not Junk)?</li>
-                        <li>Are HubSpot workflows showing <strong>"On"</strong> with enrollment history?</li>
-                        <li>Do flows use correct trigger <strong>"When a new email arrives in a shared mailbox (V2)"</strong>?</li>
-                    </ol>
+    <!-- Main Content -->
+    <main class="container">
+        <!-- 5 Quick Checks -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--color-blue-bg);">&#9889;</div>
+                <div class="card-title">
+                    <h2>5 Quick Checks</h2>
+                    <p>Do these first -- solves 80% of issues</p>
                 </div>
-            </section>
+            </div>
+            <ol class="quick-checks-list">
+                <li>
+                    <div>Are both flows turned <strong>ON</strong>? (green check vs gray off)</div>
+                </li>
+                <li>
+                    <div>Is Office 365 connection showing <strong>"Connected"</strong>?</div>
+                </li>
+                <li>
+                    <div>Are HubSpot emails in <strong>Inbox</strong> (not Junk)?</div>
+                </li>
+                <li>
+                    <div>Are HubSpot workflows showing <strong>"On"</strong> with enrollment history?</div>
+                </li>
+                <li>
+                    <div>Do flows use correct trigger <code>"When a new email arrives in a shared mailbox (V2)"</code>?</div>
+                </li>
+            </ol>
+        </section>
 
-            <!-- Tier 1: Most Likely -->
-            <section>
-                <h2>🔴 Tier 1: Most Likely (80% of cases)</h2>
-                
-                <div class="tier tier-red">
-                    <div class="tier-header">
-                        <span class="tier-icon">🚨</span>
-                        Check These First
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">1</span>
-                            Flows Not Turned On
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item"><strong>Check:</strong> <code>make.powerautomate.com</code> → Solutions → Cloud flows tab</li>
-                                <li class="check-item">Look for <span class="highlight">"Off"</span> (gray) vs <span class="highlight" style="background: #d1fae5;">"On"</span> (green)</li>
-                                <li class="fix-item"><strong>Fix:</strong> Click <code>...</code> menu → Turn on</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">2</span>
-                            Connection Not Authenticated
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item"><strong>Check:</strong> Data → Connections</li>
-                                <li class="check-item">Look for <span class="critical">"Can't sign in"</span></li>
-                                <li class="fix-item"><strong>Fix:</strong> Click "Fix connection" and re-authenticate</li>
-                                <li class="fix-item">If still won't turn on: Share connection with "Can use" permission</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">3</span>
-                            Emails Landing in Junk
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item"><strong>Check:</strong> Open shared mailbox Junk Email folder</li>
-                                <li class="alert-item"><span class="critical">Critical:</span> Power Automate ONLY monitors Inbox, not Junk!</li>
-                                <li class="fix-item"><strong>Fix:</strong> Go to <code>security.microsoft.com/tenantAllowBlockList</code></li>
-                                <li class="fix-item">Add <code>hubspotemail.net</code> as allowed sender</li>
-                                <li class="fix-item">Alternative: Create mail flow rule with <code>SCL=-1</code></li>
-                            </ul>
-                        </div>
-                    </div>
+        <!-- Tier 1: Most Likely (80%) -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--color-red-bg);">&#128308;</div>
+                <div class="card-title">
+                    <h2>Tier 1: Most Likely (80%)</h2>
+                    <p>Red flags -- check these immediately</p>
                 </div>
-            </section>
+            </div>
 
-            <!-- Tier 2: Likely if Tier 1 Fails -->
-            <section>
-                <h2>🟡 Tier 2: Likely If Tier 1 Fails</h2>
-                
-                <div class="tier tier-amber">
-                    <div class="tier-header">
-                        <span class="tier-icon">⚠️</span>
-                        Secondary Checks
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">4</span>
-                            Wrong Email Trigger
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item"><strong>Must use:</strong> <code>"When a new email arrives in a shared mailbox (V2)"</code></li>
-                                <li class="alert-item"><strong>NOT:</strong> <code>"When a new email arrives (V3)"</code></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">5</span>
-                            Environment Variables Wrong
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item"><strong>Check:</strong> Solutions → Environment variables</li>
-                                <li class="check-item">Verify 4 email addresses (no typos)</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">6</span>
-                            Permissions Not Propagated
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item">Wait <strong>2 hours</strong> after granting Full Access</li>
-                                <li class="fix-item">Then delete/recreate connection</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="issue">
-                        <div class="issue-title">
-                            <span class="issue-number">7</span>
-                            HubSpot Workflows Not Running
-                        </div>
-                        <div class="issue-content">
-                            <ul>
-                                <li class="check-item"><strong>Check:</strong> Automation → Workflows showing <strong>"On"</strong></li>
-                                <li class="check-item">Check History tab for enrollments</li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="tier tier-red">
+                <div class="tier-header">
+                    <span class="tier-icon">&#128680;</span>
+                    <span>Critical Issues</span>
                 </div>
-            </section>
 
-            <!-- Tier 3: Less Likely -->
-            <section>
-                <h2>🟢 Tier 3: Less Likely</h2>
-                
-                <div class="tier tier-green">
-                    <div class="tier-header">
-                        <span class="tier-icon">🔍</span>
-                        Advanced / Edge Cases
+                <!-- Issue #1 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">1</div>
+                        <div class="issue-title">Flows Not Turned On</div>
                     </div>
-                    
                     <div class="issue-content">
                         <ul>
-                            <li>Conditional Access / MFA issues</li>
-                            <li>OAuth consent blocked</li>
-                            <li>Solution import failed</li>
-                            <li>ZAP (Zero-hour Auto Purge)</li>
+                            <li class="check-item"><strong>Check:</strong> <code>make.powerautomate.com</code> &rarr; Solutions &rarr; Cloud flows tab</li>
+                            <li class="check-item">Look for <span class="highlight">"Off"</span> (gray) vs <span class="highlight highlight-green">"On"</span> (green)</li>
+                            <li class="fix-item"><strong>Fix:</strong> Click <code>...</code> menu &rarr; Turn on</li>
                         </ul>
                     </div>
                 </div>
-            </section>
 
-            <!-- Decision Table -->
-            <section>
-                <h2>📋 Quick Decision Table</h2>
-                <div class="decision-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Symptom</th>
-                                <th>Most Likely Issue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Flows show "Off"</td>
-                                <td><strong>Issue #1</strong></td>
-                            </tr>
-                            <tr>
-                                <td>"Can't sign in"</td>
-                                <td><strong>Issue #2</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Emails in Junk</td>
-                                <td><strong>Issue #3</strong></td>
-                            </tr>
-                            <tr>
-                                <td>No emails at all</td>
-                                <td><strong>Issue #7</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Flow runs but no action</td>
-                                <td><strong>Issue #4</strong> or <strong>#5</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Issue #2 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">2</div>
+                        <div class="issue-title">Connection Not Authenticated</div>
+                    </div>
+                    <div class="issue-content">
+                        <ul>
+                            <li class="check-item"><strong>Check:</strong> Data &rarr; Connections</li>
+                            <li class="check-item">Look for <span class="critical">"Can't sign in"</span></li>
+                            <li class="fix-item"><strong>Fix:</strong> Click "Fix connection" and re-authenticate</li>
+                            <li class="fix-item">If still won't turn on: Share connection with "Can use" permission</li>
+                        </ul>
+                    </div>
                 </div>
-            </section>
-        </main>
 
-        <footer>
-            <p>📧 Still stuck? Email Tyler with screenshots</p>
-        </footer>
-    </div>
+                <!-- Issue #3 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">3</div>
+                        <div class="issue-title">Emails Landing in Junk</div>
+                    </div>
+                    <div class="issue-content">
+                        <ul>
+                            <li class="check-item"><strong>Check:</strong> Open shared mailbox Junk Email folder</li>
+                            <li class="alert-item"><span class="critical">Critical:</span> Power Automate ONLY monitors Inbox, not Junk!</li>
+                            <li class="fix-item"><strong>Fix:</strong> Go to <code>security.microsoft.com/tenantAllowBlockList</code></li>
+                            <li class="fix-item">Add <code>hubspotemail.net</code> as allowed sender</li>
+                            <li class="fix-item">Alternative: Create mail flow rule with <code>SCL=-1</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tier 2: Likely -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--color-amber-bg);">&#128993;</div>
+                <div class="card-title">
+                    <h2>Tier 2: Likely</h2>
+                    <p>Check these if Tier 1 checks pass</p>
+                </div>
+            </div>
+
+            <div class="tier tier-amber">
+                <div class="tier-header">
+                    <span class="tier-icon">&#9888;&#65039;</span>
+                    <span>Secondary Issues</span>
+                </div>
+
+                <!-- Issue #4 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">4</div>
+                        <div class="issue-title">Wrong Email Trigger</div>
+                    </div>
+                    <div class="issue-content">
+                        <ul>
+                            <li class="check-item"><strong>Must use:</strong> <code>"When a new email arrives in a shared mailbox (V2)"</code></li>
+                            <li class="alert-item"><strong>NOT:</strong> <code>"When a new email arrives (V3)"</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Issue #5 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">5</div>
+                        <div class="issue-title">Environment Variables Wrong</div>
+                    </div>
+                    <div class="issue-content">
+                        <ul>
+                            <li class="check-item"><strong>Check:</strong> Solutions &rarr; Environment variables</li>
+                            <li class="check-item">Verify 4 email addresses (no typos)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Issue #6 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">6</div>
+                        <div class="issue-title">Permissions Not Propagated</div>
+                    </div>
+                    <div class="issue-content">
+                        <ul>
+                            <li class="check-item">Wait <strong>2 hours</strong> after granting Full Access</li>
+                            <li class="fix-item">Then delete/recreate connection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Issue #7 -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <div class="issue-number">7</div>
+                        <div class="issue-title">HubSpot Workflows Not Running</div>
+                    </div>
+                    <div class="issue-content">
+                        <ul>
+                            <li class="check-item"><strong>Check:</strong> Automation &rarr; Workflows showing <strong>"On"</strong></li>
+                            <li class="check-item">Check History tab for enrollments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tier 3: Advanced -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--color-green-bg);">&#128994;</div>
+                <div class="card-title">
+                    <h2>Tier 3: Advanced</h2>
+                    <p>Edge cases and less common issues</p>
+                </div>
+            </div>
+
+            <div class="tier tier-green">
+                <div class="tier-header">
+                    <span class="tier-icon">&#128269;</span>
+                    <span>Advanced Diagnostics</span>
+                </div>
+                <div class="issue-content">
+                    <ul>
+                        <li class="check-item">Conditional Access / MFA issues</li>
+                        <li class="check-item">OAuth consent blocked</li>
+                        <li class="check-item">Solution import failed</li>
+                        <li class="check-item">ZAP (Zero-hour Auto Purge)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Decision Table -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--color-gray-100);">&#128203;</div>
+                <div class="card-title">
+                    <h2>Quick Decision Table</h2>
+                    <p>Match symptoms to likely issues</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symptom</th>
+                            <th>Most Likely Issue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Flows show "Off"</td>
+                            <td><strong>Issue #1</strong></td>
+                        </tr>
+                        <tr>
+                            <td>"Can't sign in"</td>
+                            <td><strong>Issue #2</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Emails in Junk</td>
+                            <td><strong>Issue #3</strong></td>
+                        </tr>
+                        <tr>
+                            <td>No emails at all</td>
+                            <td><strong>Issue #7</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Flow runs but no action</td>
+                            <td><strong>Issue #4</strong> or <strong>#5</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Need Help?</strong></p>
+            <p>Still stuck? Email Tyler with screenshots and the issue number from this guide.</p>
+            <p style="margin-top: var(--space-md); font-size: 0.875rem; opacity: 0.7;">
+                HTT Brands &copy; 2025 -- FranConnect Integration
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
