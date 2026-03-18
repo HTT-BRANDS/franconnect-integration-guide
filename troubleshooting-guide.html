@@ -44,9 +44,9 @@ a{color:var(--md-primary)}
 .site-header__sub{color:var(--md-inverse-primary);font-size:16px}
 
 .stepper-bar{position:sticky;top:0;z-index:100;background:var(--md-surface-lowest);border-bottom:1px solid var(--md-outline-variant);padding:12px 24px;display:flex;justify-content:center}
-.stepper{display:flex;align-items:center;max-width:600px;width:100%}
+.stepper{display:flex;align-items:center;max-width:560px;width:100%;margin:0 auto}
 .step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative}
-.step:not(:last-child)::after{content:'';position:absolute;top:20px;left:50%;right:-50%;height:2px;background:var(--md-outline-variant);z-index:0}
+.step:not(:last-child)::after{content:'';position:absolute;top:20px;left:calc(50% + 20px);right:calc(-50% + 0px);height:2px;background:var(--md-outline-variant);z-index:0}
 .step.completed:not(:last-child)::after{background:var(--md-primary)}
 .step__node{width:40px;height:40px;border-radius:var(--shape-full);display:flex;align-items:center;justify-content:center;font:500 14px/1 var(--font);position:relative;z-index:1;transition:all .2s}
 .step.completed .step__node{background:var(--md-primary);color:var(--md-on-primary)}
@@ -151,7 +151,7 @@ a{color:var(--md-primary)}
 .mockup-body{background:#fff}
 
 .pa-app{display:flex;min-height:220px}
-.pa-sidebar{width:190px;background:#1b2a3b;flex-shrink:0}
+.pa-sidebar{width:160px;background:#1b2a3b;flex-shrink:0;min-width:0}
 .pa-sidebar-header{background:#0d2137;padding:12px 16px}
 .pa-sidebar-logo{font:500 13px/1 var(--font);color:#fff;display:flex;align-items:center;gap:8px}
 .pa-sidebar-nav{padding:8px 0}
@@ -189,7 +189,7 @@ a{color:var(--md-primary)}
 .hs-pill{width:36px;height:20px;border-radius:var(--shape-full);position:relative;background:#00bda5}
 .hs-pill::after{content:'';position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#fff}
 .hs-steps{display:flex;flex-direction:column;align-items:center}
-.hs-step{background:#fff;border:2px solid #e5e7eb;border-radius:var(--shape-md);padding:12px 20px;min-width:260px;text-align:center}
+.hs-step{background:#fff;border:2px solid #e5e7eb;border-radius:var(--shape-md);padding:12px 16px;min-width:0;width:100%;max-width:280px;text-align:center}
 .hs-step--trigger{border-color:#7c3aed;background:#f5f3ff}
 .hs-step--action{border-color:var(--md-primary);background:#f0fdf9}
 .hs-step--end{border-color:var(--color-success);background:#f0fdf4}
@@ -207,7 +207,7 @@ a{color:var(--md-primary)}
 .fc-val.good{background:#f0fdf4;color:#166534}
 
 .owa-app{display:flex;min-height:180px}
-.owa-nav{width:170px;background:#0078d4;padding:8px 0;flex-shrink:0}
+.owa-nav{width:150px;background:#0078d4;padding:8px 0;flex-shrink:0;min-width:0}
 .owa-shared-tag{background:rgba(0,0,0,.2);padding:6px 12px;margin-bottom:4px;color:#fff;font:500 11px/1.4 var(--font)}
 .owa-folder{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;color:rgba(255,255,255,.8);font:400 13px/1 var(--font);cursor:pointer}
 .owa-folder.sel{background:rgba(255,255,255,.2);color:#fff}
@@ -350,7 +350,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 
 /* ═══ MD3 Navigation Rail ═══ */
 .md3-rail{display:none;position:fixed;left:0;top:0;bottom:0;width:80px;background:var(--md-surface-container);z-index:90;flex-direction:column;align-items:center;padding:80px 0 24px;gap:0;border-right:1px solid var(--md-outline-variant)}
-@media(min-width:1100px){.md3-rail{display:flex}.container{margin-left:80px}.md3-fab{right:32px;bottom:32px}}
+@media(min-width:1100px){.md3-rail{display:flex}}
 .rail-item{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:6px 0 8px;cursor:pointer;color:var(--md-on-surface-variant);text-decoration:none;transition:color .15s;border:none;background:none;overflow:visible}
 .rail-item:hover{color:var(--md-on-surface)}
 .rail-item.active{color:var(--md-primary)}
@@ -380,9 +380,86 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 .expand-icon .material-symbols-outlined{transition:transform .25s cubic-bezier(.4,0,.2,1)}
 .expand-btn[aria-expanded="true"] .expand-icon .material-symbols-outlined{transform:rotate(180deg)}
 
+
+/* ═══ Page Shell — offsets ALL content away from the fixed rail ═══ */
+.page-shell { min-height: 100vh; transition: margin-left .25s; }
+@media(min-width: 1100px) {
+  .page-shell { margin-left: 80px; }
+  .md3-fab   { right: 32px; bottom: 32px; }
+}
+
+/* ═══ Rail refinements ═══ */
+.md3-rail {
+  overflow: hidden;
+  border-right: 1px solid var(--md-outline-variant);
+}
+.rail-item { padding: 8px 0 10px; }
+.rail-indicator { width: 56px; height: 32px; }
+
+/* ═══ Stepper — prevent connector line overflow ═══ */
+.step:not(:last-child)::after {
+  width: calc(100% - 40px);
+  left: calc(50% + 20px);
+  right: 0;
+}
+
+/* ═══ Container — full-width within shell ═══ */
+@media(min-width: 1100px) {
+  .container { max-width: 900px; }
+}
+
+/* ═══ Header + Stepper stay full-width of shell (no extra tweaks needed) ═══ */
+.stepper-bar { width: 100%; }
+
+/* ═══ Snackbar stays centered in viewport, not shell ═══ */
+.md3-snackbar { left: calc(50% + 40px); }
+@media(max-width: 1099px) { .md3-snackbar { left: 50%; } }
+
+/* ═══ Mockup overflow guard ═══ */
+.ui-mockup { overflow: hidden; }
+.pa-app, .owa-app { overflow: hidden; }
+.pa-sidebar { min-width: 0; }
+.pa-sidebar-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ═══ Expression table — prevent horizontal blowout ═══ */
+.expr-table-wrap { max-width: 100%; }
+.expr-cell { min-width: 0; }
+.expr-cell code { min-width: 0; overflow-wrap: anywhere; }
+
+/* ═══ Comparison grid — min-width guard ═══ */
+.comp-panel__body { overflow-wrap: anywhere; word-break: break-all; }
+
+/* ═══ Option card — consistent padding ═══ */
+.option-card__hdr, .option-card__body, .option-card__cta { padding: 20px 24px; }
+
+/* ═══ Pros/cons — icon alignment ═══ */
+.pros li, .cons li { padding-left: 22px; }
+.pros li::before, .cons li::before { width: 18px; line-height: 1.55; }
+
+/* ═══ Code block — always scrollable ═══ */
+.code-block { overflow-x: auto; }
+.code-block pre { white-space: pre; word-break: normal; overflow-wrap: normal; }
+
+/* ═══ Escalation avatar — use icon correctly ═══ */
+.esc-avatar .material-symbols-outlined { font-size: 40px !important; color: white; }
+
+/* ═══ Section heading spacing ═══ */
+.section-heading { margin-top: 8px; }
+
+/* ═══ Disclosure content — smooth open ═══ */
+.disclosure-content { background: var(--md-surface-lowest); }
+
+/* ═══ Table responsive ═══ */
+.md3-table-wrap, .expr-table-wrap { border-radius: var(--shape-md); }
+.md3-table td, .md3-table th { word-break: normal; }
+
+/* ═══ Remove double border on featured option card ═══ */
+.option-card.featured { box-shadow: var(--elev-2); }
+
 </style>
 </head>
 <body>
+<div class="page-shell">
 <header class="site-header">
   <div class="site-header__badge"><div class="site-header__icon"><span class="material-symbols-outlined icon-filled icon-sm">handshake</span></div><span>HTT Brands</span></div>
   <h1>BrandONE FranConnect Integration Guide</h1>
@@ -394,7 +471,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
     <div class="step completed"><div class="step__node"><span class="material-symbols-outlined icon-filled icon-sm">check</span></div><div class="step__label">Flow Setup</div></div>
     <div class="step completed"><div class="step__node"><span class="material-symbols-outlined icon-filled icon-sm">check</span></div><div class="step__label">Email Delivery</div></div>
     <div class="step active"><div class="step__node">3</div><div class="step__label">Data Fix</div></div>
-    <div class="step upcoming"><div class="step__node">4</div><div class="step__label">All Done! 🎉</div></div>
+    <div class="step upcoming"><div class="step__node">4</div><div class="step__label">All Done!</div></div>
   </div>
 </div>
 
@@ -1395,6 +1472,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+</div><!-- /.page-shell -->
+</div><!-- /.page-shell -->
 <!-- MD3 Navigation Rail -->
 <nav class="md3-rail" aria-label="Guide sections" id="md3-rail">
   <a href="#phase2" class="rail-item active" title="Fix the Data" data-section="phase2">
