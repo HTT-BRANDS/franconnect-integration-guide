@@ -753,7 +753,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
       </div>
       <div class="md3-card md3-card--filled" style="margin-top:8px">
         <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ HubSpot updated their email template and it broke again</div>
-        <p style="font:400 13px/1.6 var(--font,sans-serif)">This is a known fragility of email-parsing approaches. If HubSpot changes their notification email layout, the labels may shift or new content may be injected. See Option F below — sending a plain-text structured email eliminates this fragility.</p>
+        <p style="font:400 13px/1.6 var(--font,sans-serif)">This is a known fragility of email-parsing approaches. If HubSpot changes their notification email layout, the labels may shift or new content may be injected. See <a href="#option-f">Option F</a> — switching to a plain-text structured email (coordinated with <strong>Patti Rother at HTT Brands</strong>) eliminates this fragility permanently.</p>
       </div>
       <div class="md3-card md3-card--filled" style="margin-top:8px">
         <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ Expression editor in Power Automate clears when I click elsewhere</div>
@@ -831,19 +831,27 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 <div class="option-card featured" id="option-f">
   <div class="option-card__hdr">
     <div class="chips-row" style="margin-top:0;margin-bottom:8px">
-      <span class="md3-chip chip-new"><span class="material-symbols-outlined icon-filled icon-xs">star</span> Newly Discovered</span>
-      <span class="md3-chip chip-primary"><span class="material-symbols-outlined icon-filled icon-xs">emoji_events</span> Recommended Short-Term</span>
+      <span class="md3-chip chip-primary"><span class="material-symbols-outlined icon-filled icon-xs">emoji_events</span> Recommended Next Step</span>
       <span class="md3-chip chip-warning"><span class="material-symbols-outlined icon-xs">schedule</span> ~30–60 minutes</span>
       <span class="md3-chip chip-success"><span class="material-symbols-outlined icon-xs">payments</span> Free</span>
-      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">person</span> Olivia</span>
+      <span class="md3-chip chip-info"><span class="material-symbols-outlined icon-xs">corporate_fare</span> HTT Brands Internal</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">manage_accounts</span> Patti Rother</span>
     </div>
-    <h3 class="option-card__title">Send a Plain-Text Structured Email from HubSpot</h3>
-    <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Reconfigure the HubSpot workflow to send a clean plain-text email with predictable formatting. Eliminates image noise and makes the expressions reliable — no more guessing about labels.</p>
+    <h3 class="option-card__title">HTT Brands: Switch HubSpot Notification to Plain-Text Email</h3>
+    <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">If Option A's expressions don't hold up, HTT Brands can update the HubSpot notification workflow to send a clean plain-text email. This eliminates image noise at the source and makes all parsing permanently reliable. <strong>This is an internal HTT Brands action — Patti Rother configured the current HubSpot workflows and can make this change.</strong></p>
   </div>
   <div class="option-card__body">
-    <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:16px">The root problem isn't the expressions — it's that HubSpot's default notification emails are full of HTML branding, images, and tracking pixels that pollute the stripped text. If you control what HubSpot sends, you can send a <strong>clean, predictable plain-text email</strong> that always looks exactly the same.</p>
+    <div class="md3-callout callout-info" style="margin-bottom:20px">
+      <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">corporate_fare</span></div>
+      <div>
+        <div class="md3-callout__title">HTT Brands Internal Action — Patti Rother</div>
+        <div class="md3-callout__body">This change is made on the HTT Brands side in HubSpot, not by Olivia in Power Automate. <strong>Patti Rother</strong> configured the current Bishops Lead Notification workflow in HubSpot and can update it. If Option A's expressions still produce incorrect results after testing, let Tyler know and he'll loop Patti in to make this update.</div>
+      </div>
+    </div>
 
-    <h4 style="font:500 14px/1 var(--font,sans-serif);margin-bottom:12px">How to Set This Up in HubSpot</h4>
+    <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:16px">The root problem isn't the expressions — it's that HubSpot's default notification emails are full of HTML branding, images, and tracking pixels that pollute the stripped text. Switching to a clean plain-text format at the HubSpot workflow level eliminates this at the source, making Power Automate's parsing permanently reliable without any further expression changes.</p>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin-bottom:12px">How Patti Updates This in HubSpot</h4>
     <ol class="md3-steps">
       <li><div class="step-num">1</div><div class="step-content"><strong>Go to HubSpot → Automation → Workflows</strong> — open the Bishops workflow that currently sends the notification email</div></li>
       <li><div class="step-num">2</div><div class="step-content"><strong>Find the "Send internal email notification" action</strong> — click on it to open the action editor</div></li>
@@ -916,7 +924,7 @@ Source: Bishops Inquiry Form</pre>
         <div class="cons">
           <h4>✗ Cons</h4>
           <ul>
-            <li>Requires HubSpot workflow edit access</li>
+            <li>Requires HTT Brands internal action (Patti Rother)</li>
             <li>Still relies on email delivery (Junk filter risk)</li>
             <li>Power Automate expressions still needed</li>
             <li>Not as robust as a direct API integration</li>
@@ -927,8 +935,7 @@ Source: Bishops Inquiry Form</pre>
   </div>
   <div class="option-card__cta">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font:400 13px/1.4 var(--font,sans-serif);color:var(--md-on-surface-variant)">Do Option F first, then apply Option A's expressions — together they're the most reliable free solution.</span>
-      <a href="https://app.hubspot.com" target="_blank" rel="noopener" class="md3-btn md3-btn--filled"><span class="material-symbols-outlined icon-sm">open_in_new</span> Open HubSpot</a>
+      <span style="font:400 13px/1.4 var(--font,sans-serif);color:var(--md-on-surface-variant)"><strong>Escalation path:</strong> If Option A doesn't fully resolve the data issue after testing, Olivia should let Tyler know — Tyler will then coordinate with Patti Rother to update the HubSpot workflow using the template above.</span>
     </div>
   </div>
 </div>
@@ -1075,9 +1082,9 @@ Source: BrandONE Website</pre>
         </tr>
         <tr>
           <td><span class="phase-badge phase-week"><span class="material-symbols-outlined icon-filled icon-xs">schedule</span> Phase 1 — This Week</span></td>
-          <td>Within 2–3 days</td>
-          <td>Reconfigure the HubSpot workflow to send a plain-text structured email (the template in Option F). Re-run a test lead to confirm the Strip HTML output is now clean. Update expressions if any label strings changed.</td>
-          <td>Olivia</td>
+          <td>Within 2–3 days (if Option A needs reinforcement)</td>
+          <td>If Option A expressions still return incorrect values after testing: Olivia notifies Tyler → Tyler coordinates with <strong>Patti Rother (HTT Brands)</strong> to update the Bishops HubSpot notification workflow to plain-text format. Re-run a test lead to confirm Strip HTML output is clean.</td>
+          <td>Patti Rother (HTT Brands)</td>
           <td><a href="#option-f">Option F</a></td>
         </tr>
         <tr>
@@ -1261,7 +1268,7 @@ Source: BrandONE Website</pre>
         <tr><td>Runs show "Failed" with authentication error</td><td>Office 365 connection expired</td><td>Phase 1 → Issue #2 (fix connection / sign in again)</td></tr>
         <tr><td>Runs show "Succeeded" but FranConnect gets garbled data</td><td>Compose expressions using wrong split pattern</td><td><a href="#phase2">Phase 2 → Fix Compose Expressions</a></td></tr>
         <tr class="row-phase2"><td><strong>FranConnect fields contain label + "HubSpot" + CDN URL fragment</strong></td><td><strong>first(split()) returning index 0 — the header junk</strong></td><td><strong><a href="#option-a">Option A</a> + <a href="#option-f">Option F</a> (Olivia's current situation)</strong></td></tr>
-        <tr class="row-phase2"><td><strong>Fix works but breaks again after a few weeks</strong></td><td><strong>HubSpot updated their email template</strong></td><td><strong><a href="#option-f">Option F</a> — switch to plain-text HubSpot email</strong></td></tr>
+        <tr class="row-phase2"><td><strong>Fix works but breaks again after a few weeks</strong></td><td><strong>HubSpot updated their email template</strong></td><td><strong><a href="#option-f">Option F</a> — Patti Rother (HTT Brands) updates HubSpot workflow to plain-text format</strong></td></tr>
         <tr><td>Want a permanent, maintenance-free solution</td><td>Email-parsing is fundamentally fragile</td><td><a href="#option-c">Option C</a> — FranConnect API or Marketplace connector</td></tr>
         <tr><td>None of the above fixes it</td><td>Advanced edge case (Tier 3)</td><td>Escalate to Tyler with screenshots (see below)</td></tr>
       </tbody>
