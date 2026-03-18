@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BrandONE FranConnect Integration Guide | HTT Brands</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -250,8 +251,8 @@ a{color:var(--md-primary)}
 .cons h4{color:var(--md-error);margin-bottom:6px;font:500 13px/1 var(--font)}
 .pros ul,.cons ul{list-style:none}
 .pros li,.cons li{font:400 13px/1.5 var(--font);padding:2px 0 2px 16px;position:relative}
-.pros li::before{content:'✓';position:absolute;left:0;color:var(--color-success)}
-.cons li::before{content:'✗';position:absolute;left:0;color:var(--md-error)}
+.pros li::before{content:'check';position:absolute;left:0;color:var(--color-success)}
+.cons li::before{content:'close';position:absolute;left:0;color:var(--md-error)}
 
 .md3-table-wrap{overflow-x:auto;border-radius:var(--shape-md);box-shadow:var(--elev-1)}
 .md3-table{width:100%;border-collapse:collapse;background:var(--md-surface-lowest)}
@@ -308,19 +309,90 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 .footer-meta{opacity:.6;font-size:12px!important;margin-top:16px}
 @media(max-width:640px){.site-header h1{font-size:24px}.container{padding:16px 12px}.md3-card{padding:16px}.option-card__hdr,.option-card__body,.option-card__cta{padding:16px}.esc-body{padding:20px 16px}}
 @media print{.stepper-bar{position:static}.md3-card--elevated{box-shadow:none;border:1px solid var(--md-outline-variant)}.site-header,.site-footer,.esc-header{-webkit-print-color-adjust:exact;print-color-adjust:exact}.md3-card,.option-card{break-inside:avoid}}
+
+/* ═══ MD3 Material Symbols ═══ */
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size:24px;line-height:1;display:inline-flex;align-items:center;justify-content:center;user-select:none;flex-shrink:0}
+.icon-xs{font-size:16px!important}.icon-sm{font-size:18px!important}.icon-lg{font-size:32px!important}.icon-xl{font-size:40px!important}
+.icon-filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+.icon-w300{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
+
+/* ═══ MD3 State Layers ═══ */
+.md3-btn,.expand-btn,.ba-tab,.disclosure-btn,.rail-item,.expr-copy,.copy-btn{position:relative;overflow:hidden}
+.md3-btn::after,.expand-btn::after,.ba-tab::after,.disclosure-btn::after,.rail-item::after,.expr-copy::after,.copy-btn::after{content:'';position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:0;transition:opacity .15s;pointer-events:none}
+.md3-btn:hover::after,.expand-btn:hover::after,.ba-tab:hover::after,.disclosure-btn:hover::after,.rail-item:hover::after,.expr-copy:hover::after,.copy-btn:hover::after{opacity:.08}
+.md3-btn:focus-visible::after,.expand-btn:focus-visible::after,.ba-tab:focus-visible::after,.disclosure-btn:focus-visible::after,.rail-item:focus-visible::after{opacity:.12}
+.md3-btn:active::after,.expand-btn:active::after,.ba-tab:active::after,.expr-copy:active::after,.copy-btn:active::after{opacity:.16}
+
+/* ═══ MD3 Button System ═══ */
+.md3-btn{display:inline-flex;align-items:center;gap:8px;border-radius:var(--shape-full);font:500 14px/1 var(--font);cursor:pointer;border:none;text-decoration:none;white-space:nowrap;transition:box-shadow .2s;padding:10px 24px;letter-spacing:.01em}
+.md3-btn .material-symbols-outlined{font-size:18px!important}
+.md3-btn--filled{background:var(--md-primary);color:var(--md-on-primary)}
+.md3-btn--filled:hover{box-shadow:var(--elev-1)}
+.md3-btn--tonal{background:var(--md-secondary-container);color:var(--md-on-secondary-container)}
+.md3-btn--tonal:hover{box-shadow:var(--elev-1)}
+.md3-btn--outlined{background:transparent;color:var(--md-primary);border:1px solid var(--md-outline)}
+.md3-btn--text{background:transparent;color:var(--md-primary);padding:10px 12px}
+.md3-btn--elevated{background:var(--md-surface-lowest);color:var(--md-primary);box-shadow:var(--elev-1)}
+.md3-btn--elevated:hover{box-shadow:var(--elev-2)}
+.md3-btn--icon{padding:8px;border-radius:var(--shape-full);background:none;color:var(--md-on-surface-variant)}
+.md3-btn--icon .material-symbols-outlined{font-size:24px!important}
+
+/* ═══ MD3 FAB (Extended) ═══ */
+.md3-fab{position:fixed;bottom:24px;right:24px;z-index:200;background:var(--md-primary-container);color:var(--md-on-primary-container);border:none;border-radius:var(--shape-lg);padding:16px 20px;display:flex;align-items:center;gap:12px;font:500 14px/1 var(--font);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.3),0 4px 8px 3px rgba(0,0,0,.15);transition:box-shadow .2s,transform .15s;text-decoration:none;letter-spacing:.01em}
+.md3-fab:hover{box-shadow:0 2px 6px rgba(0,0,0,.3),0 6px 16px 3px rgba(0,0,0,.15);transform:translateY(-2px)}
+.md3-fab .material-symbols-outlined{font-size:24px!important}
+@media(max-width:640px){.md3-fab span:last-child{display:none}.md3-fab{padding:16px;border-radius:var(--shape-full)}}
+
+/* ═══ MD3 Snackbar ═══ */
+.md3-snackbar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(140px);background:var(--md-inverse-surface);color:var(--md-inverse-on-surface);padding:14px 16px 14px 12px;border-radius:var(--shape-xs);font:400 14px/1.4 var(--font);display:flex;align-items:center;gap:8px;box-shadow:0 3px 5px rgba(0,0,0,.2),0 6px 10px rgba(0,0,0,.14);transition:transform .3s cubic-bezier(.05,.7,.1,1);z-index:300;pointer-events:none;min-width:200px;max-width:420px;white-space:nowrap}
+.md3-snackbar.is-visible{transform:translateX(-50%) translateY(0);pointer-events:auto}
+.md3-snackbar .material-symbols-outlined{color:var(--md-inverse-primary);font-size:18px!important;flex-shrink:0}
+
+/* ═══ MD3 Navigation Rail ═══ */
+.md3-rail{display:none;position:fixed;left:0;top:0;bottom:0;width:80px;background:var(--md-surface-container);z-index:90;flex-direction:column;align-items:center;padding:80px 0 24px;gap:0;border-right:1px solid var(--md-outline-variant)}
+@media(min-width:1100px){.md3-rail{display:flex}.container{margin-left:80px}.md3-fab{right:32px;bottom:32px}}
+.rail-item{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:6px 0 8px;cursor:pointer;color:var(--md-on-surface-variant);text-decoration:none;transition:color .15s;border:none;background:none;overflow:visible}
+.rail-item:hover{color:var(--md-on-surface)}
+.rail-item.active{color:var(--md-primary)}
+.rail-indicator{width:56px;height:32px;border-radius:var(--shape-full);display:flex;align-items:center;justify-content:center;transition:background .15s;position:relative}
+.rail-item.active .rail-indicator{background:var(--md-secondary-container)}
+.rail-item:hover:not(.active) .rail-indicator{background:rgba(0,0,0,.08)}
+.rail-label{font:500 11px/1 var(--font);text-align:center;letter-spacing:.04em;padding:0 4px}
+
+/* ═══ MD3 Chip icon sizing ═══ */
+.md3-chip .material-symbols-outlined{font-size:16px!important}
+
+/* ═══ MD3 Card icon ═══ */
+.md3-card__icon .material-symbols-outlined{font-size:28px!important}
+
+/* ═══ MD3 Callout icon ═══ */
+.md3-callout__icon .material-symbols-outlined{font-size:20px!important}
+
+/* ═══ MD3 Pros/Cons via CSS ═══ */
+.pros li::before{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;font-size:14px;line-height:1.6}
+.cons li::before{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;font-size:14px;line-height:1.6}
+
+/* ═══ Rail scrollspy active state ═══ */
+.rail-item .material-symbols-outlined{font-size:20px!important;transition:font-variation-settings .15s}
+.rail-item.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+
+/* ═══ Expand icon transition ═══ */
+.expand-icon .material-symbols-outlined{transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.expand-btn[aria-expanded="true"] .expand-icon .material-symbols-outlined{transform:rotate(180deg)}
+
 </style>
 </head>
 <body>
 <header class="site-header">
-  <div class="site-header__badge"><div class="site-header__icon">🤝</div><span>HTT Brands</span></div>
+  <div class="site-header__badge"><div class="site-header__icon"><span class="material-symbols-outlined icon-filled icon-sm">handshake</span></div><span>HTT Brands</span></div>
   <h1>BrandONE FranConnect Integration Guide</h1>
   <p class="site-header__sub">HubSpot → Power Automate → FranConnect &nbsp;|&nbsp; Bishops Leads</p>
 </header>
 
 <div class="stepper-bar">
   <div class="stepper">
-    <div class="step completed"><div class="step__node">✓</div><div class="step__label">Flow Setup</div></div>
-    <div class="step completed"><div class="step__node">✓</div><div class="step__label">Email Delivery</div></div>
+    <div class="step completed"><div class="step__node"><span class="material-symbols-outlined icon-filled icon-sm">check</span></div><div class="step__label">Flow Setup</div></div>
+    <div class="step completed"><div class="step__node"><span class="material-symbols-outlined icon-filled icon-sm">check</span></div><div class="step__label">Email Delivery</div></div>
     <div class="step active"><div class="step__node">3</div><div class="step__label">Data Fix</div></div>
     <div class="step upcoming"><div class="step__node">4</div><div class="step__label">All Done! 🎉</div></div>
   </div>
@@ -331,17 +403,17 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 <!-- SECTION 1: CONFIDENCE BANNER -->
 <div class="md3-card md3-card--elevated md3-card--tinted" style="border-left:4px solid var(--md-primary)">
   <div class="md3-card__header">
-    <div class="md3-card__icon" style="background:var(--md-primary-container);font-size:28px">🎉</div>
+    <div class="md3-card__icon" style="background:var(--md-primary-container);color:var(--md-on-primary-container)"><span class="material-symbols-outlined icon-filled">celebration</span></div>
     <div>
       <div class="md3-card__title">You're Almost There, Olivia!</div>
       <div class="md3-card__subtitle">Leads are reaching FranConnect — that's the hardest part. Now we fix the data.</div>
     </div>
   </div>
   <div class="chips-row">
-    <span class="md3-chip chip-success">✅ 3 of 4 Steps Complete</span>
-    <span class="md3-chip chip-primary">⚡ Flow is Running</span>
-    <span class="md3-chip chip-info">📬 Emails Arriving</span>
-    <span class="md3-chip chip-warning">⏱ Fastest fix: ~15 minutes</span>
+    <span class="md3-chip chip-success"><span class="material-symbols-outlined icon-filled icon-xs">task_alt</span> 3 of 4 Steps Complete</span>
+    <span class="md3-chip chip-primary"><span class="material-symbols-outlined icon-filled icon-xs">bolt</span> Flow is Running</span>
+    <span class="md3-chip chip-info"><span class="material-symbols-outlined icon-filled icon-xs">mark_email_read</span> Emails Arriving</span>
+    <span class="md3-chip chip-warning"><span class="material-symbols-outlined icon-xs">schedule</span> Fastest fix: ~15 min</span>
   </div>
   <div style="margin-top:16px;font:400 15px/1.7 var(--font,sans-serif);color:var(--md-on-surface)">
     <p>You've already done the hard work: you got Power Automate connected, the email trigger working, and confirmed that lead records are actually being created in FranConnect. That's a real accomplishment.</p>
@@ -352,16 +424,16 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 <!-- SECTION 2: PHASE 2 — ACTIVE ISSUE -->
 <div id="phase2" class="md3-card md3-card--elevated">
   <div class="md3-card__header">
-    <div class="md3-card__icon" style="background:var(--md-error-container);font-size:28px">🔴</div>
+    <div class="md3-card__icon" style="background:var(--md-error-container);color:var(--md-on-error-container)"><span class="material-symbols-outlined icon-filled">error</span></div>
     <div>
       <div class="md3-card__title">Phase 2: Fix the Data — START HERE</div>
       <div class="md3-card__subtitle">Compose expressions are reading the wrong part of the email text</div>
     </div>
   </div>
   <div class="chips-row" style="margin-bottom:20px">
-    <span class="md3-chip chip-error">🔴 Active Issue</span>
-    <span class="md3-chip chip-surface">📍 Compose Actions</span>
-    <span class="md3-chip chip-warning">⏱ ~15 min to fix</span>
+    <span class="md3-chip chip-error"><span class="material-symbols-outlined icon-filled icon-xs">error</span> Active Issue</span>
+    <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">edit</span> Compose Actions</span>
+    <span class="md3-chip chip-warning"><span class="material-symbols-outlined icon-xs">schedule</span> ~15 min to fix</span>
   </div>
 
   <!-- Root Cause Plain Language -->
@@ -371,12 +443,12 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
   <h3 style="font:500 16px/1 var(--font,sans-serif);margin-bottom:12px">What FranConnect Is Receiving Right Now</h3>
   <div class="comparison-grid">
     <div class="comp-panel comp-panel--broken">
-      <div class="comp-panel__header">❌ What FranConnect Is Getting (Broken)</div>
+      <div class="comp-panel__header"><span class="material-symbols-outlined icon-filled icon-xs">cancel</span> What FranConnect Gets (Broken)</div>
       <div class="comp-panel__body">First NameHubSpot [https://static.hsappstatic.net/EmailNotificationSharedAssets/ex/hubspot-logo-stan...] John</div>
       <div class="comp-panel__note">FranConnect is storing the field label + "HubSpot" + a CDN image URL fragment + the actual value — all jumbled together</div>
     </div>
     <div class="comp-panel comp-panel--fixed">
-      <div class="comp-panel__header">✅ What FranConnect Should Get (Fixed)</div>
+      <div class="comp-panel__header"><span class="material-symbols-outlined icon-filled icon-xs">check_circle</span> What FranConnect Gets (Fixed)</div>
       <div class="comp-panel__body">John</div>
       <div class="comp-panel__note">Just the clean field value — nothing else</div>
     </div>
@@ -387,12 +459,12 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 
   <div class="comparison-grid">
     <div class="comp-panel comp-panel--broken">
-      <div class="comp-panel__header">❌ Current (Wrong) Expression</div>
+      <div class="comp-panel__header"><span class="material-symbols-outlined icon-filled icon-xs">cancel</span> Current (Wrong) Expression</div>
       <div class="comp-panel__body">trim(first(split(body('Strip_HTML'), 'First Name: ')))</div>
       <div class="comp-panel__note"><strong>Problem:</strong> <code>first()</code> returns index 0 — everything BEFORE "First Name:", not after. Gets header junk.</div>
     </div>
     <div class="comp-panel comp-panel--fixed">
-      <div class="comp-panel__header">✅ Fixed (Two-Stage Split)</div>
+      <div class="comp-panel__header"><span class="material-symbols-outlined icon-filled icon-xs">check_circle</span> Fixed (Two-Stage Split)</div>
       <div class="comp-panel__body">trim(first(split(last(split(body('Strip_HTML'), 'First Name: ')), 'Last Name: ')))</div>
       <div class="comp-panel__note"><strong>How it works:</strong> Step 1 isolates everything after "First Name:". Step 2 cuts at the next label. What's left is just the value.</div>
     </div>
@@ -402,12 +474,12 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
   <h3 style="font:500 16px/1 var(--font,sans-serif);margin:20px 0 12px">FranConnect Record: Before vs. After the Fix</h3>
   <div class="ba-group">
     <div class="ba-tabs">
-      <button class="ba-tab active" onclick="showPanel(this,'before-panel')">❌ Before (Broken)</button>
-      <button class="ba-tab" onclick="showPanel(this,'after-panel')">✅ After (Fixed)</button>
+      <button class="ba-tab active" onclick="showPanel(this,'before-panel')"><span class="material-symbols-outlined icon-filled icon-xs">cancel</span> Before (Broken)</button>
+      <button class="ba-tab" onclick="showPanel(this,'after-panel')"><span class="material-symbols-outlined icon-filled icon-xs">check_circle</span> After (Fixed)</button>
     </div>
     <div id="before-panel" class="ba-panel active">
       <div class="fc-record">
-        <div class="fc-title">👤 Primary Info — Bishops Test Lead</div>
+        <div class="fc-title"><span class="material-symbols-outlined icon-xs">person</span> Primary Info — Bishops Test Lead</div>
         <div class="fc-field"><div class="fc-label">First Name</div><div class="fc-val bad">First NameHubSpot [https://static.hsappstatic.net/EmailNotificationSharedAssets/ex/hubspot-logo-stan...]</div></div>
         <div class="fc-field"><div class="fc-label">Last Name</div><div class="fc-val bad">Last NameHub... (truncated)</div></div>
         <div class="fc-field"><div class="fc-label">Email</div><div class="fc-val bad">EmailHubSpot [https://static.hsappstatic.net/EmailN...]</div></div>
@@ -417,7 +489,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
     </div>
     <div id="after-panel" class="ba-panel">
       <div class="fc-record">
-        <div class="fc-title">👤 Primary Info — Bishops Test Lead</div>
+        <div class="fc-title"><span class="material-symbols-outlined icon-xs">person</span> Primary Info — Bishops Test Lead</div>
         <div class="fc-field"><div class="fc-label">First Name</div><div class="fc-val good">John</div></div>
         <div class="fc-field"><div class="fc-label">Last Name</div><div class="fc-val good">Smith</div></div>
         <div class="fc-field"><div class="fc-label">Email</div><div class="fc-val good">john.smith@email.com</div></div>
@@ -502,7 +574,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
   </div>
 
   <div class="md3-callout callout-warning" style="margin-top:16px">
-    <div class="md3-callout__icon">⚠️</div>
+    <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">warning</span></div>
     <div>
       <div class="md3-callout__title">Copy the Strip HTML output to Notepad (Windows) or TextEdit (Mac)</div>
       <div class="md3-callout__body">Paste it in a plain text document so you can read the exact characters between each field label. The label strings you split on must match <strong>exactly</strong> — including any colon, space, or line break — otherwise the split returns nothing.</div>
@@ -567,7 +639,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
   </div>
 
   <div class="md3-callout callout-warning" style="margin-top:16px">
-    <div class="md3-callout__icon">⚠️</div>
+    <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">warning</span></div>
     <div>
       <div class="md3-callout__title">Label matching is case-sensitive and space-sensitive</div>
       <div class="md3-callout__body">If the stripped email body says <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">First name:</code> (lowercase "n") but your expression says <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">'First Name: '</code> (capital N), the split returns nothing. Always verify against the actual Strip HTML output text.</div>
@@ -587,7 +659,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
   <!-- Gotchas Accordion -->
   <div style="margin-top:24px">
     <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)">
-      <span>🔍 Common Gotchas &amp; Edge Cases</span><span class="expand-icon">▼</span>
+      <span><span class="material-symbols-outlined icon-sm">search</span> Common Gotchas &amp; Edge Cases</span><span class="expand-icon"><span class="material-symbols-outlined icon-sm">expand_more</span></span>
     </button>
     <div class="expandable">
       <div class="md3-card md3-card--filled" style="margin-top:8px">
@@ -624,31 +696,31 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 <div class="option-card" id="option-a">
   <div class="option-card__hdr">
     <div class="chips-row" style="margin-top:0;margin-bottom:8px">
-      <span class="md3-chip chip-surface">🔧 Option A</span>
-      <span class="md3-chip chip-warning">⏱ ~15 minutes</span>
-      <span class="md3-chip chip-success">💰 Free</span>
-      <span class="md3-chip chip-surface">👤 Olivia</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">build</span> Option A</span>
+      <span class="md3-chip chip-warning"><span class="material-symbols-outlined icon-xs">schedule</span> ~15 minutes</span>
+      <span class="md3-chip chip-success"><span class="material-symbols-outlined icon-xs">payments</span> Free</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">person</span> Olivia</span>
     </div>
     <h3 class="option-card__title">Fix the Compose Expressions</h3>
     <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Update the 6 Compose actions in your existing flow to use two-stage split expressions. Fastest fix — works on what you already have.</p>
   </div>
   <div class="option-card__body">
     <div class="md3-callout callout-info" style="margin-bottom:16px">
-      <div class="md3-callout__icon">📋</div>
+      <div class="md3-callout__icon"><span class="material-symbols-outlined">assignment</span></div>
       <div>
         <div class="md3-callout__title">The complete step-by-step and all 6 expressions are in the "Phase 2: Fix the Data" section above</div>
         <div class="md3-callout__body">Scroll up to <a href="#phase2">Phase 2 — START HERE</a> for the full diagnostic walkthrough, expression table with copy buttons, and the expression editor mockup.</div>
       </div>
     </div>
     <div class="md3-callout callout-warning">
-      <div class="md3-callout__icon">⚠️</div>
+      <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">warning</span></div>
       <div>
         <div class="md3-callout__title">This approach is fragile — it will break if HubSpot changes their email template</div>
         <div class="md3-callout__body">If HubSpot updates the layout of their notification emails (which they do occasionally), the label strings change and the expressions stop working. It's a fix for right now — not forever.</div>
       </div>
     </div>
     <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)" style="margin-top:12px">
-      <span>Pros &amp; Cons</span><span class="expand-icon">▼</span>
+      <span>Pros &amp; Cons</span><span class="expand-icon"><span class="material-symbols-outlined icon-sm">expand_more</span></span>
     </button>
     <div class="expandable">
       <div class="pros-cons" style="margin-top:8px">
@@ -674,7 +746,7 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
     </div>
   </div>
   <div class="option-card__cta">
-    <a href="#phase2" style="background:var(--md-primary);color:var(--md-on-primary);display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--shape-full);font:500 14px/1 var(--font,sans-serif);text-decoration:none">↑ Jump to Fix Steps &amp; Expressions</a>
+    <a href="#phase2" class="md3-btn md3-btn--filled"><span class="material-symbols-outlined icon-sm">arrow_upward</span> Jump to Fix Steps</a>
   </div>
 </div>
 
@@ -682,11 +754,11 @@ kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inv
 <div class="option-card featured" id="option-f">
   <div class="option-card__hdr">
     <div class="chips-row" style="margin-top:0;margin-bottom:8px">
-      <span class="md3-chip chip-new">⭐ Newly Discovered</span>
-      <span class="md3-chip chip-primary">🏆 Recommended Short-Term</span>
-      <span class="md3-chip chip-warning">⏱ ~30–60 minutes</span>
-      <span class="md3-chip chip-success">💰 Free</span>
-      <span class="md3-chip chip-surface">👤 Olivia</span>
+      <span class="md3-chip chip-new"><span class="material-symbols-outlined icon-filled icon-xs">star</span> Newly Discovered</span>
+      <span class="md3-chip chip-primary"><span class="material-symbols-outlined icon-filled icon-xs">emoji_events</span> Recommended Short-Term</span>
+      <span class="md3-chip chip-warning"><span class="material-symbols-outlined icon-xs">schedule</span> ~30–60 minutes</span>
+      <span class="md3-chip chip-success"><span class="material-symbols-outlined icon-xs">payments</span> Free</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">person</span> Olivia</span>
     </div>
     <h3 class="option-card__title">Send a Plain-Text Structured Email from HubSpot</h3>
     <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Reconfigure the HubSpot workflow to send a clean plain-text email with predictable formatting. Eliminates image noise and makes the expressions reliable — no more guessing about labels.</p>
@@ -718,7 +790,7 @@ Source: Bishops Inquiry Form</pre>
     </div>
 
     <div class="md3-callout callout-success" style="margin-top:16px">
-      <div class="md3-callout__icon">✅</div>
+      <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">check_circle</span></div>
       <div>
         <div class="md3-callout__title">Why this makes Option A's expressions reliable</div>
         <div class="md3-callout__body">When HubSpot sends this exact template, the Strip HTML output will look like the template above — no image URLs, no alt text, no CDN links. The two-stage split expressions in your Compose actions will work perfectly and keep working even if HubSpot updates their branding.</div>
@@ -750,7 +822,7 @@ Source: Bishops Inquiry Form</pre>
     </div>
 
     <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)" style="margin-top:16px">
-      <span>Pros &amp; Cons</span><span class="expand-icon">▼</span>
+      <span>Pros &amp; Cons</span><span class="expand-icon"><span class="material-symbols-outlined icon-sm">expand_more</span></span>
     </button>
     <div class="expandable">
       <div class="pros-cons" style="margin-top:8px">
@@ -779,7 +851,7 @@ Source: Bishops Inquiry Form</pre>
   <div class="option-card__cta">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <span style="font:400 13px/1.4 var(--font,sans-serif);color:var(--md-on-surface-variant)">Do Option F first, then apply Option A's expressions — together they're the most reliable free solution.</span>
-      <a href="https://app.hubspot.com" target="_blank" rel="noopener" style="background:var(--md-primary);color:var(--md-on-primary);display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--shape-full);font:500 14px/1 var(--font,sans-serif);text-decoration:none">Open HubSpot →</a>
+      <a href="https://app.hubspot.com" target="_blank" rel="noopener" class="md3-btn md3-btn--filled"><span class="material-symbols-outlined icon-sm">open_in_new</span> Open HubSpot</a>
     </div>
   </div>
 </div>
@@ -788,11 +860,11 @@ Source: Bishops Inquiry Form</pre>
 <div class="option-card" id="option-c">
   <div class="option-card__hdr">
     <div class="chips-row" style="margin-top:0;margin-bottom:8px">
-      <span class="md3-chip chip-info">🏗️ Option C</span>
-      <span class="md3-chip chip-surface">🏆 Best Long-Term</span>
-      <span class="md3-chip chip-surface">⏱ 1–2 days (Tyler's work)</span>
-      <span class="md3-chip chip-warning">💰 Depends on FranConnect plan</span>
-      <span class="md3-chip chip-surface">👤 Tyler</span>
+      <span class="md3-chip chip-info"><span class="material-symbols-outlined icon-xs">construction</span> Option C</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-filled icon-xs">emoji_events</span> Best Long-Term</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">schedule</span> 1–2 days (Tyler's work)</span>
+      <span class="md3-chip chip-warning"><span class="material-symbols-outlined icon-xs">payments</span> FranConnect plan dependent</span>
+      <span class="md3-chip chip-surface"><span class="material-symbols-outlined icon-xs">person</span> Tyler</span>
     </div>
     <h3 class="option-card__title">Skip Email Parsing — Use FranConnect's REST API or Marketplace Connector</h3>
     <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Push lead data directly from HubSpot to FranConnect via API — no email, no parsing, no fragility. The most reliable architecture long-term.</p>
@@ -831,7 +903,7 @@ FranConnect creates lead record  ✅</pre>
     </div>
 
     <div class="md3-callout callout-info" style="margin-top:16px">
-      <div class="md3-callout__icon">📋</div>
+      <div class="md3-callout__icon"><span class="material-symbols-outlined">assignment</span></div>
       <div>
         <div class="md3-callout__title">What Tyler needs to check first</div>
         <div class="md3-callout__body">
@@ -862,7 +934,7 @@ Source: BrandONE Website</pre>
     </div>
 
     <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)" style="margin-top:16px">
-      <span>Pros &amp; Cons</span><span class="expand-icon">▼</span>
+      <span>Pros &amp; Cons</span><span class="expand-icon"><span class="material-symbols-outlined icon-sm">expand_more</span></span>
     </button>
     <div class="expandable">
       <div class="pros-cons" style="margin-top:8px">
@@ -911,35 +983,35 @@ Source: BrandONE Website</pre>
       </thead>
       <tbody>
         <tr class="row-now">
-          <td><span class="phase-badge phase-now">🔴 Phase 0 — NOW</span></td>
+          <td><span class="phase-badge phase-now"><span class="material-symbols-outlined icon-filled icon-xs">error</span> Phase 0 — NOW</span></td>
           <td>Today</td>
           <td>Inspect the actual Strip HTML output from a recent failed run. Copy it into Notepad (Windows) or TextEdit (Mac) and identify the exact label strings.</td>
           <td>Olivia</td>
           <td><a href="#phase2">See Phase 2</a></td>
         </tr>
         <tr>
-          <td><span class="phase-badge phase-now">🔴 Phase 0 — NOW</span></td>
+          <td><span class="phase-badge phase-now"><span class="material-symbols-outlined icon-filled icon-xs">error</span> Phase 0 — NOW</span></td>
           <td>Today (~15 min)</td>
           <td>Update all 6 Compose expressions with the two-stage split pattern from the expression table. Save the flow and run a test lead.</td>
           <td>Olivia</td>
           <td><a href="#option-a">Option A</a></td>
         </tr>
         <tr>
-          <td><span class="phase-badge phase-week">🟡 Phase 1 — This Week</span></td>
+          <td><span class="phase-badge phase-week"><span class="material-symbols-outlined icon-filled icon-xs">schedule</span> Phase 1 — This Week</span></td>
           <td>Within 2–3 days</td>
           <td>Reconfigure the HubSpot workflow to send a plain-text structured email (the template in Option F). Re-run a test lead to confirm the Strip HTML output is now clean. Update expressions if any label strings changed.</td>
           <td>Olivia</td>
           <td><a href="#option-f">Option F</a></td>
         </tr>
         <tr>
-          <td><span class="phase-badge phase-week">🟡 Phase 1 — This Week</span></td>
+          <td><span class="phase-badge phase-week"><span class="material-symbols-outlined icon-filled icon-xs">schedule</span> Phase 1 — This Week</span></td>
           <td>Within 1 week</td>
           <td>Tyler checks FranConnect API availability and plan eligibility. If available, scope the direct integration work.</td>
           <td>Tyler</td>
           <td><a href="#option-c">Option C</a></td>
         </tr>
         <tr>
-          <td><span class="phase-badge phase-month">🟢 Phase 2 — This Month</span></td>
+          <td><span class="phase-badge phase-month"><span class="material-symbols-outlined icon-filled icon-xs">check_circle</span> Phase 2 — This Month</span></td>
           <td>When confirmed</td>
           <td>If FranConnect REST API is available: Tyler implements direct HubSpot → FranConnect API push. Decommissions the email-parsing flow once verified stable for 2 weeks.</td>
           <td>Tyler</td>
@@ -952,12 +1024,12 @@ Source: BrandONE Website</pre>
 
 <!-- SECTION 5: PHASE 1 REFERENCE (collapsible) -->
 <button class="disclosure-btn" onclick="toggleDisclosure(this)" aria-expanded="false">
-  <span>📋 Phase 1 Reference — Flow &amp; Connection Issues (Already Resolved for Your Setup ✅)</span>
-  <span class="disclosure-icon">▼</span>
+  <span><span class="material-symbols-outlined icon-sm">assignment</span> Phase 1 Reference — Flow &amp; Connection Issues (Already Resolved for Your Setup ✅)</span>
+  <span class="disclosure-icon"><span class="material-symbols-outlined icon-sm">expand_more</span></span>
 </button>
 <div class="disclosure-content">
   <div class="md3-callout callout-success" style="margin-bottom:20px">
-    <div class="md3-callout__icon">✅</div>
+    <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">check_circle</span></div>
     <div>
       <div class="md3-callout__title">Olivia has already cleared all Phase 1 checks</div>
       <div class="md3-callout__body">Leads are reaching FranConnect, which means the flow is On, the connection is working, emails aren't stuck in Junk, and the V2 trigger is correct. This section is here for reference only — in case the flow stops running in the future.</div>
@@ -1127,7 +1199,7 @@ Source: BrandONE Website</pre>
 </div>
 <div class="esc-card" id="escalation">
   <div class="esc-header">
-    <div class="esc-avatar">👨‍💻</div>
+    <div class="esc-avatar"><span class="material-symbols-outlined icon-filled icon-xl icon-filled">support_agent</span></div>
     <div class="esc-title">Tyler's Got You</div>
     <div class="esc-sub">HTT Brands IT Director &nbsp;·&nbsp; tyler.granlund@httbrands.com</div>
   </div>
@@ -1147,11 +1219,11 @@ Source: BrandONE Website</pre>
     <h4 style="font:500 14px/1 var(--font,sans-serif);margin:20px 0 12px">How to Take Screenshots</h4>
     <div class="platform-grid">
       <div class="platform-card platform-card--win">
-        <h4>🪟 Windows</h4>
+        <h4><span class="material-symbols-outlined icon-sm">laptop_windows</span> Windows</h4>
         <p style="font:400 13px/1.6 var(--font,sans-serif);margin-bottom:8px">Press <kbd>Windows</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> to open the snipping tool. Click and drag to select any area of the screen. The screenshot is automatically copied to your clipboard — paste it directly into your email with <kbd>Ctrl</kbd> + <kbd>V</kbd>.</p>
       </div>
       <div class="platform-card platform-card--mac">
-        <h4>🍎 Mac</h4>
+        <h4><span class="material-symbols-outlined icon-sm">laptop_mac</span> Mac</h4>
         <p style="font:400 13px/1.6 var(--font,sans-serif);margin-bottom:8px">Press <kbd>⌘ Command</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd> to turn your cursor into a crosshair. Click and drag to capture an area. The screenshot saves to your Desktop automatically — attach it to your email.</p>
       </div>
     </div>
@@ -1190,7 +1262,7 @@ Thanks,
     </div>
 
     <div class="md3-callout callout-info" style="margin-top:16px">
-      <div class="md3-callout__icon">💡</div>
+      <div class="md3-callout__icon"><span class="material-symbols-outlined icon-filled">lightbulb</span></div>
       <div>
         <div class="md3-callout__title">What to expect after you send</div>
         <div class="md3-callout__body">Tyler will review the screenshots and either send back a specific fix, or schedule a brief screen-share to walk through it together. Having all 6 screenshots in one email usually means a same-day turnaround.</div>
@@ -1201,8 +1273,8 @@ Thanks,
 
 <!-- SECTION 8: QUICK REFERENCE (collapsible) -->
 <button class="disclosure-btn" onclick="toggleDisclosure(this)" aria-expanded="false">
-  <span>📌 Quick Reference — Key URLs &amp; Contacts</span>
-  <span class="disclosure-icon">▼</span>
+  <span><span class="material-symbols-outlined icon-sm">push_pin</span> Quick Reference — Key URLs &amp; Contacts</span>
+  <span class="disclosure-icon"><span class="material-symbols-outlined icon-sm">expand_more</span></span>
 </button>
 <div class="disclosure-content">
   <table class="ref-table">
@@ -1231,56 +1303,39 @@ Thanks,
 
 <script>
 // 1. Copy buttons — all [data-copy] buttons
+var _sbTimer = null;
+function showSnackbar(msg) {
+  var sb = document.getElementById('md3-snackbar');
+  var ml = document.getElementById('snackbar-msg');
+  if (ml) ml.textContent = msg || 'Copied';
+  if (sb) {
+    sb.classList.add('is-visible');
+    clearTimeout(_sbTimer);
+    _sbTimer = setTimeout(function() { sb.classList.remove('is-visible'); }, 2800);
+  }
+}
+function doCopy(text, label) {
+  function done() { showSnackbar((label || 'Item') + ' copied'); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(function() { fallback(text); done(); });
+  } else { fallback(text); done(); }
+}
+function fallback(text) {
+  var t = document.createElement('textarea');
+  t.value = text; t.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+  document.body.appendChild(t); t.focus(); t.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(t);
+}
 function initCopyButtons() {
   document.querySelectorAll('[data-copy]').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var text = btn.getAttribute('data-copy');
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() {
-          var orig = btn.textContent;
-          btn.textContent = '✓ Copied!';
-          btn.classList.add('copied');
-          setTimeout(function() {
-            btn.textContent = orig;
-            btn.classList.remove('copied');
-          }, 2000);
-        });
-      } else {
-        // Fallback for older browsers
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        try { document.execCommand('copy'); } catch(e) {}
-        document.body.removeChild(ta);
-        var orig = btn.textContent;
-        btn.textContent = '✓ Copied!';
-        btn.classList.add('copied');
-        setTimeout(function() {
-          btn.textContent = orig;
-          btn.classList.remove('copied');
-        }, 2000);
-      }
+      doCopy(btn.getAttribute('data-copy'), btn.getAttribute('data-label') || 'Content');
     });
   });
-
-  // expr-copy buttons
   document.querySelectorAll('.expr-copy').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var text = btn.getAttribute('data-copy');
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() {
-          btn.textContent = '✓ Copied!';
-          btn.classList.add('copied');
-          setTimeout(function() {
-            btn.textContent = 'Copy';
-            btn.classList.remove('copied');
-          }, 2000);
-        });
-      }
+      doCopy(btn.getAttribute('data-copy'), 'Expression');
     });
   });
 }
@@ -1336,7 +1391,45 @@ function initSmoothScroll() {
 document.addEventListener('DOMContentLoaded', function() {
   initCopyButtons();
   initSmoothScroll();
+  initRailScrollspy();
 });
 </script>
+
+<!-- MD3 Navigation Rail -->
+<nav class="md3-rail" aria-label="Guide sections" id="md3-rail">
+  <a href="#phase2" class="rail-item active" title="Fix the Data" data-section="phase2">
+    <div class="rail-indicator"><span class="material-symbols-outlined icon-sm">build</span></div>
+    <span class="rail-label">Fix</span>
+  </a>
+  <a href="#option-a" class="rail-item" title="Option A — Quick Fix" data-section="option-a">
+    <div class="rail-indicator"><span class="material-symbols-outlined icon-sm">bolt</span></div>
+    <span class="rail-label">Quick</span>
+  </a>
+  <a href="#option-f" class="rail-item" title="Option F — Recommended" data-section="option-f">
+    <div class="rail-indicator"><span class="material-symbols-outlined icon-sm">star</span></div>
+    <span class="rail-label">Best</span>
+  </a>
+  <a href="#option-c" class="rail-item" title="Option C — API" data-section="option-c">
+    <div class="rail-indicator"><span class="material-symbols-outlined icon-sm">api</span></div>
+    <span class="rail-label">API</span>
+  </a>
+  <a href="#escalation" class="rail-item" title="Get Help" data-section="escalation">
+    <div class="rail-indicator"><span class="material-symbols-outlined icon-sm">support_agent</span></div>
+    <span class="rail-label">Help</span>
+  </a>
+</nav>
+
+<!-- MD3 Extended FAB -->
+<a href="#phase2" class="md3-fab" aria-label="Jump to fix">
+  <span class="material-symbols-outlined">build</span>
+  <span>Jump to Fix</span>
+</a>
+
+<!-- MD3 Snackbar -->
+<div class="md3-snackbar" id="md3-snackbar" role="status" aria-live="polite">
+  <span class="material-symbols-outlined icon-filled">check_circle</span>
+  <span id="snackbar-msg">Copied to clipboard</span>
+</div>
+
 </body>
 </html>
