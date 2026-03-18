@@ -1,813 +1,1342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troubleshooting Cloud Flow Issues | HTT Brands</title>
-    <style>
-        :root {
-            /* HTT Brands Design System Colors */
-            --color-primary: #0d7b70;
-            --color-primary-dark: #096b62;
-            --color-primary-light: #0d9b8e;
-            --color-secondary: #1a1a2e;
-            --color-secondary-light: #2a2a4a;
-            
-            /* Semantic Colors */
-            --color-red: #dc2626;
-            --color-red-bg: #fef2f2;
-            --color-amber: #d97706;
-            --color-amber-bg: #fffbeb;
-            --color-green: #059669;
-            --color-green-bg: #f0fdf4;
-            --color-blue: #2563eb;
-            --color-blue-bg: #eff6ff;
-            
-            /* Neutral */
-            --color-white: #ffffff;
-            --color-gray-50: #f9fafb;
-            --color-gray-100: #f3f4f6;
-            --color-gray-200: #e5e7eb;
-            --color-gray-300: #d1d5db;
-            --color-gray-400: #9ca3af;
-            --color-gray-500: #6b7280;
-            --color-gray-600: #4b5563;
-            --color-gray-700: #374151;
-            --color-gray-800: #1f2937;
-            --color-gray-900: #111827;
-            
-            /* Typography */
-            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-            
-            /* Spacing */
-            --space-xs: 0.25rem;
-            --space-sm: 0.5rem;
-            --space-md: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;
-            --space-2xl: 3rem;
-            --space-3xl: 4rem;
-            
-            /* Shadows */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-            
-            /* Border Radius */
-            --radius-sm: 0.375rem;
-            --radius: 0.5rem;
-            --radius-lg: 0.75rem;
-            --radius-xl: 1rem;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-family);
-            line-height: 1.6;
-            color: var(--color-gray-800);
-            background: var(--color-gray-100);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Header */
-        .header {
-            background: var(--color-secondary);
-            padding: var(--space-2xl) var(--space-xl);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
-        }
-
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-sm);
-            color: var(--color-white);
-            font-size: 0.875rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: var(--space-lg);
-            opacity: 0.9;
-        }
-
-        .brand-icon {
-            width: 24px;
-            height: 24px;
-            background: var(--color-primary);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-
-        .header h1 {
-            color: var(--color-white);
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: var(--space-md);
-            line-height: 1.2;
-        }
-
-        .header-subtitle {
-            color: var(--color-gray-400);
-            font-size: 1.125rem;
-            font-weight: 400;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: var(--space-xl);
-        }
-
-        /* Cards */
-        .card {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            padding: var(--space-xl);
-            margin-bottom: var(--space-xl);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            margin-bottom: var(--space-lg);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .card-title {
-            flex: 1;
-        }
-
-        .card-title h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--color-gray-900);
-            margin-bottom: 0.25rem;
-        }
-
-        .card-title p {
-            font-size: 0.875rem;
-            color: var(--color-gray-500);
-        }
-
-        /* Quick Checks */
-        .quick-checks-list {
-            list-style: none;
-            counter-reset: check;
-        }
-
-        .quick-checks-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-md);
-            padding: var(--space-md) 0;
-            border-bottom: 1px solid var(--color-gray-200);
-        }
-
-        .quick-checks-list li:last-child {
-            border-bottom: none;
-        }
-
-        .quick-checks-list li::before {
-            counter-increment: check;
-            content: counter(check);
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.875rem;
-        }
-
-        .quick-checks-list li div {
-            padding-top: 0.25rem;
-        }
-
-        /* Tiers */
-        .tier {
-            border-radius: var(--radius-lg);
-            padding: var(--space-lg);
-            margin-bottom: var(--space-lg);
-        }
-
-        .tier-red {
-            background: var(--color-red-bg);
-            border-left: 4px solid var(--color-red);
-        }
-
-        .tier-amber {
-            background: var(--color-amber-bg);
-            border-left: 4px solid var(--color-amber);
-        }
-
-        .tier-green {
-            background: var(--color-green-bg);
-            border-left: 4px solid var(--color-green);
-        }
-
-        .tier-blue {
-            background: var(--color-blue-bg);
-            border-left: 4px solid var(--color-blue);
-        }
-
-        .tier-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: var(--space-md);
-        }
-
-        .tier-red .tier-header { color: var(--color-red); }
-        .tier-amber .tier-header { color: var(--color-amber); }
-        .tier-green .tier-header { color: var(--color-green); }
-        .tier-blue .tier-header { color: var(--color-blue); }
-
-        .tier-icon {
-            font-size: 1.25rem;
-        }
-
-        /* Issue Cards */
-        .issue-card {
-            background: var(--color-white);
-            border-radius: var(--radius);
-            padding: var(--space-md);
-            margin-bottom: var(--space-md);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-gray-200);
-        }
-
-        .issue-card:last-child {
-            margin-bottom: 0;
-        }
-
-        .issue-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-sm);
-        }
-
-        .issue-number {
-            width: 28px;
-            height: 28px;
-            background: var(--color-secondary);
-            color: var(--color-white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .issue-title {
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-
-        .issue-content {
-            padding-left: 36px;
-        }
-
-        .issue-content ul {
-            list-style: none;
-        }
-
-        .issue-content li {
-            margin-bottom: var(--space-sm);
-            padding-left: 24px;
-            position: relative;
-            color: var(--color-gray-700);
-        }
-
-        .issue-content li:last-child {
-            margin-bottom: 0;
-        }
-
-        .issue-content li::before {
-            position: absolute;
-            left: 0;
-            font-weight: 600;
-        }
-
-        .check-item::before {
-            content: "\2611";
-            color: var(--color-primary);
-        }
-
-        .fix-item::before {
-            content: "\2692";
-        }
-
-        .alert-item::before {
-            content: "\26a0";
-            color: var(--color-amber);
-        }
-
-        /* Decision Table */
-        .table-container {
-            overflow-x: auto;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-gray-200);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--color-white);
-        }
-
-        th, td {
-            padding: var(--space-md);
-            text-align: left;
-            border-bottom: 1px solid var(--color-gray-200);
-        }
-
-        th {
-            background: var(--color-secondary);
-            color: var(--color-white);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-
-        th:first-child {
-            border-top-left-radius: var(--radius);
-        }
-
-        th:last-child {
-            border-top-right-radius: var(--radius);
-        }
-
-        tr:hover {
-            background: var(--color-gray-50);
-        }
-
-        td {
-            color: var(--color-gray-700);
-        }
-
-        td strong {
-            color: var(--color-gray-900);
-        }
-
-        /* Code & Highlight */
-        code {
-            font-family: var(--font-mono);
-            font-size: 0.875em;
-            background: var(--color-gray-100);
-            padding: 0.125rem 0.375rem;
-            border-radius: var(--radius-sm);
-            color: var(--color-gray-800);
-        }
-
-        .highlight {
-            background: var(--color-amber-bg);
-            color: var(--color-amber);
-            padding: 0.125rem 0.375rem;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-        }
-
-        .highlight-green {
-            background: var(--color-green-bg);
-            color: var(--color-green);
-        }
-
-        .critical {
-            color: var(--color-red);
-            font-weight: 700;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--color-secondary);
-            color: var(--color-white);
-            padding: var(--space-xl);
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .footer p {
-            opacity: 0.9;
-            margin-bottom: var(--space-sm);
-        }
-
-        .footer a {
-            color: var(--color-primary-light);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                background: var(--color-white);
-            }
-
-            .card {
-                box-shadow: none;
-                border: 1px solid var(--color-gray-200);
-                break-inside: avoid;
-            }
-
-            .tier {
-                break-inside: avoid;
-            }
-
-            .issue-card {
-                break-inside: avoid;
-            }
-
-            .header {
-                background: var(--color-secondary) !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            .tier-red,
-            .tier-amber,
-            .tier-green,
-            .tier-blue {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            th {
-                background: var(--color-secondary) !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .header {
-                padding: var(--space-xl) var(--space-md);
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .header-subtitle {
-                font-size: 1rem;
-            }
-
-            .container {
-                padding: var(--space-md);
-            }
-
-            .card {
-                padding: var(--space-md);
-            }
-
-            .card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
-            }
-
-            .card-title h2 {
-                font-size: 1.125rem;
-            }
-
-            th, td {
-                padding: var(--space-sm);
-                font-size: 0.875rem;
-            }
-
-            .issue-content {
-                padding-left: 0;
-                padding-top: var(--space-sm);
-            }
-
-            .issue-header {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandONE FranConnect Integration Guide | HTT Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --md-primary:#006b61;--md-on-primary:#fff;--md-primary-container:#a8f0e3;--md-on-primary-container:#00201c;
+  --md-secondary:#4a6360;--md-on-secondary:#fff;--md-secondary-container:#cce8e4;--md-on-secondary-container:#051f1d;
+  --md-tertiary:#416277;--md-on-tertiary:#fff;--md-tertiary-container:#c5e7ff;--md-on-tertiary-container:#001e2d;
+  --md-error:#ba1a1a;--md-on-error:#fff;--md-error-container:#ffdad6;--md-on-error-container:#410002;
+  --md-surface:#f5fbf9;--md-on-surface:#171d1c;--md-surface-variant:#dae5e2;--md-on-surface-variant:#3f4947;
+  --md-surface-lowest:#fff;--md-surface-low:#eff5f3;--md-surface-container:#e3ecea;
+  --md-surface-high:#dde6e4;--md-surface-highest:#d8e0de;
+  --md-outline:#6f7976;--md-outline-variant:#bec9c6;--md-background:#f5fbf9;
+  --md-inverse-surface:#2b3230;--md-inverse-on-surface:#ecf2f0;--md-inverse-primary:#9ad1c8;
+  --color-success:#1b5e20;--color-success-container:#c8e6c9;--color-on-success-container:#0a3d0a;
+  --color-warning:#e65100;--color-warning-container:#ffe0b2;--color-on-warning-container:#7a2e00;
+  --color-info:#0d47a1;--color-info-container:#bbdefb;--color-on-info-container:#062d6e;
+  --elev-1:0 1px 2px rgba(0,0,0,.3),0 1px 3px 1px rgba(0,0,0,.15);
+  --elev-2:0 1px 2px rgba(0,0,0,.3),0 2px 6px 2px rgba(0,0,0,.15);
+  --elev-3:0 1px 3px rgba(0,0,0,.3),0 4px 8px 3px rgba(0,0,0,.15);
+  --shape-xs:4px;--shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:9999px;
+  --font:'Roboto',system-ui,sans-serif;--font-mono:'Roboto Mono',monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font:400 16px/1.6 var(--font);background:var(--md-background);color:var(--md-on-surface);-webkit-font-smoothing:antialiased}
+a{color:var(--md-primary)}
+:focus-visible{outline:3px solid var(--md-primary);outline-offset:2px}
+[id]{scroll-margin-top:100px}
+
+.site-header{background:var(--md-inverse-surface);padding:48px 24px;text-align:center;position:relative;overflow:hidden}
+.site-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--md-primary),var(--md-inverse-primary))}
+.site-header__badge{display:inline-flex;align-items:center;gap:8px;color:var(--md-inverse-on-surface);font:500 12px/1 var(--font);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;opacity:.9}
+.site-header__icon{width:28px;height:28px;background:var(--md-primary);border-radius:var(--shape-sm);display:flex;align-items:center;justify-content:center;font-size:16px}
+.site-header h1{font:400 32px/1.25 var(--font);color:#fff;margin-bottom:8px}
+.site-header__sub{color:var(--md-inverse-primary);font-size:16px}
+
+.stepper-bar{position:sticky;top:0;z-index:100;background:var(--md-surface-lowest);border-bottom:1px solid var(--md-outline-variant);padding:12px 24px;display:flex;justify-content:center}
+.stepper{display:flex;align-items:center;max-width:600px;width:100%}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;top:20px;left:50%;right:-50%;height:2px;background:var(--md-outline-variant);z-index:0}
+.step.completed:not(:last-child)::after{background:var(--md-primary)}
+.step__node{width:40px;height:40px;border-radius:var(--shape-full);display:flex;align-items:center;justify-content:center;font:500 14px/1 var(--font);position:relative;z-index:1;transition:all .2s}
+.step.completed .step__node{background:var(--md-primary);color:var(--md-on-primary)}
+.step.active .step__node{background:var(--md-surface-lowest);color:var(--md-primary);border:2px solid var(--md-primary);animation:pulse-ring 2s ease-in-out infinite}
+.step.upcoming .step__node{background:var(--md-surface-highest);color:var(--md-on-surface-variant)}
+.step__label{font:500 11px/1 var(--font);color:var(--md-on-surface-variant);text-align:center}
+.step.active .step__label,.step.completed .step__label{color:var(--md-primary)}
+@keyframes pulse-ring{0%,100%{box-shadow:0 0 0 0 rgba(0,107,97,.4)}50%{box-shadow:0 0 0 8px rgba(0,107,97,0)}}
+@media(max-width:480px){.step__label{display:none}}
+
+.container{max-width:880px;margin:0 auto;padding:24px 16px}
+.md3-card{border-radius:var(--shape-md);padding:24px;margin-bottom:24px}
+.md3-card--elevated{background:var(--md-surface-lowest);box-shadow:var(--elev-1);transition:box-shadow .2s}
+.md3-card--elevated:hover{box-shadow:var(--elev-2)}
+.md3-card--filled{background:var(--md-surface-highest)}
+.md3-card--outlined{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant)}
+.md3-card--tinted{background:var(--md-primary-container)}
+.md3-card__header{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px}
+.md3-card__icon{width:48px;height:48px;border-radius:var(--shape-md);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.md3-card__title{font:400 22px/1.3 var(--font);color:var(--md-on-surface)}
+.md3-card__subtitle{font:400 14px/1.4 var(--font);color:var(--md-on-surface-variant);margin-top:2px}
+
+.md3-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--shape-full);font:500 12px/1 var(--font);white-space:nowrap}
+.chip-success{background:var(--color-success-container);color:var(--color-on-success-container)}
+.chip-error{background:var(--md-error-container);color:var(--md-on-error-container)}
+.chip-new{background:var(--md-primary-container);color:var(--md-on-primary-container);font-weight:700}
+.chip-info{background:var(--color-info-container);color:var(--color-on-info-container)}
+.chip-warning{background:var(--color-warning-container);color:var(--color-on-warning-container)}
+.chip-surface{background:var(--md-surface-high);color:var(--md-on-surface-variant)}
+.chip-primary{background:var(--md-primary);color:var(--md-on-primary)}
+.chips-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+
+.md3-steps{list-style:none;position:relative}
+.md3-steps::before{content:'';position:absolute;left:19px;top:20px;bottom:20px;width:2px;background:var(--md-outline-variant)}
+.md3-steps li{display:flex;gap:16px;padding-bottom:24px}
+.md3-steps li:last-child{padding-bottom:0}
+.step-num{width:40px;height:40px;border-radius:var(--shape-full);background:var(--md-primary);color:var(--md-on-primary);display:flex;align-items:center;justify-content:center;font:700 14px/1 var(--font);flex-shrink:0;position:relative;z-index:1}
+.step-content{padding-top:9px;flex:1;font:400 15px/1.6 var(--font)}
+.step-content strong{color:var(--md-on-surface)}
+
+.md3-callout{display:flex;gap:12px;padding:16px;border-radius:var(--shape-md);margin:12px 0;border-left:4px solid}
+.md3-callout__icon{font-size:20px;flex-shrink:0;padding-top:2px}
+.md3-callout__title{font:500 14px/1 var(--font);margin-bottom:4px}
+.md3-callout__body{font:400 14px/1.5 var(--font)}
+.callout-warning{background:var(--color-warning-container);border-color:var(--color-warning)}
+.callout-warning .md3-callout__title{color:var(--color-on-warning-container)}
+.callout-error{background:var(--md-error-container);border-color:var(--md-error)}
+.callout-error .md3-callout__title{color:var(--md-on-error-container)}
+.callout-success{background:var(--color-success-container);border-color:var(--color-success)}
+.callout-success .md3-callout__title{color:var(--color-on-success-container)}
+.callout-info{background:var(--color-info-container);border-color:var(--color-info)}
+.callout-info .md3-callout__title{color:var(--color-on-info-container)}
+.callout-primary{background:var(--md-primary-container);border-color:var(--md-primary)}
+.callout-primary .md3-callout__title{color:var(--md-on-primary-container)}
+
+.code-block{position:relative;background:#1e2a28;border-radius:var(--shape-md);padding:16px;overflow-x:auto;margin:8px 0}
+.code-block pre{font:400 13px/1.7 var(--font-mono);color:#ecf2f0;white-space:pre-wrap;word-break:break-all}
+.copy-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.12);color:#ecf2f0;border:none;border-radius:var(--shape-sm);padding:4px 10px;font:500 11px/1 var(--font);cursor:pointer;transition:background .15s;z-index:1}
+.copy-btn:hover{background:rgba(255,255,255,.22)}
+.copy-btn.copied{background:var(--md-primary);color:var(--md-on-primary)}
+
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media(max-width:640px){.comparison-grid{grid-template-columns:1fr}}
+.comp-panel{border-radius:var(--shape-md);overflow:hidden}
+.comp-panel--broken{border:2px solid var(--md-error)}
+.comp-panel--fixed{border:2px solid var(--color-success)}
+.comp-panel__header{padding:8px 16px;font:700 13px/1 var(--font);display:flex;align-items:center;gap:8px}
+.comp-panel--broken .comp-panel__header{background:var(--md-error-container);color:var(--md-on-error-container)}
+.comp-panel--fixed .comp-panel__header{background:var(--color-success-container);color:var(--color-on-success-container)}
+.comp-panel__body{background:#1e2a28;padding:12px 16px;font:400 12px/1.6 var(--font-mono);color:#9ad1c8;word-break:break-all}
+.comp-panel__note{padding:8px 12px;font:400 12px/1.4 var(--font)}
+.comp-panel--broken .comp-panel__note{background:#fff5f5;color:#7f1d1d}
+.comp-panel--fixed .comp-panel__note{background:#f0fdf4;color:#14532d}
+
+.expr-table-wrap{overflow-x:auto;border-radius:var(--shape-md);margin:12px 0;box-shadow:var(--elev-1)}
+.expr-table{width:100%;border-collapse:collapse;background:var(--md-surface-lowest)}
+.expr-table th{background:var(--md-inverse-surface);color:var(--md-inverse-on-surface);padding:10px 16px;font:500 11px/1 var(--font);text-transform:uppercase;letter-spacing:.05em;text-align:left}
+.expr-table th:first-child{border-radius:var(--shape-sm) 0 0 0}
+.expr-table th:last-child{border-radius:0 var(--shape-sm) 0 0}
+.expr-table td{padding:10px 16px;border-bottom:1px solid var(--md-outline-variant);font:400 14px/1.4 var(--font);vertical-align:middle}
+.expr-table tr:nth-child(even) td{background:var(--md-surface-low)}
+.expr-table tr:last-child td{border-bottom:none}
+.expr-table td:first-child{font-weight:500;white-space:nowrap}
+.expr-cell{display:flex;align-items:center;gap:8px}
+.expr-cell code{font:400 11px/1.5 var(--font-mono);background:#1e2a28;color:#9ad1c8;padding:4px 8px;border-radius:var(--shape-xs);word-break:break-all;flex:1}
+.expr-copy{background:var(--md-primary-container);color:var(--md-on-primary-container);border:none;border-radius:var(--shape-xs);padding:4px 8px;font:500 11px/1 var(--font);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
+.expr-copy.copied{background:var(--md-primary);color:var(--md-on-primary)}
+
+.ba-group{border-radius:var(--shape-md);overflow:hidden;border:1px solid var(--md-outline-variant);margin:16px 0}
+.ba-tabs{display:flex;background:var(--md-surface-container)}
+.ba-tab{flex:1;padding:10px;border:none;background:none;font:500 13px/1 var(--font);color:var(--md-on-surface-variant);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.ba-tab.active{color:var(--md-primary);border-bottom-color:var(--md-primary);background:var(--md-surface-lowest)}
+.ba-panel{display:none;padding:16px;background:var(--md-surface-lowest)}
+.ba-panel.active{display:block}
+
+.ui-mockup{border-radius:var(--shape-lg);overflow:hidden;border:1px solid var(--md-outline-variant);margin:20px 0;box-shadow:var(--elev-2)}
+.mockup-chrome{background:#e0e0e0;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mockup-dots{display:flex;gap:6px}
+.mockup-dot{width:12px;height:12px;border-radius:50%}
+.dot-red{background:#ff5f57}.dot-amber{background:#ffbd44}.dot-green{background:#28c840}
+.mockup-url{flex:1;background:#fff;border-radius:var(--shape-full);padding:3px 12px;font:400 12px/1.4 var(--font-mono);color:#555;margin:0 8px}
+.mockup-body{background:#fff}
+
+.pa-app{display:flex;min-height:220px}
+.pa-sidebar{width:190px;background:#1b2a3b;flex-shrink:0}
+.pa-sidebar-header{background:#0d2137;padding:12px 16px}
+.pa-sidebar-logo{font:500 13px/1 var(--font);color:#fff;display:flex;align-items:center;gap:8px}
+.pa-sidebar-nav{padding:8px 0}
+.pa-sidebar-item{padding:9px 16px;color:rgba(255,255,255,.7);font:400 13px/1 var(--font);display:flex;align-items:center;gap:8px}
+.pa-sidebar-item.active{background:rgba(255,255,255,.12);color:#fff}
+.pa-main{flex:1;overflow:hidden}
+.pa-topbar{background:#f3f2f1;border-bottom:1px solid #ddd;padding:10px 20px}
+.pa-topbar-title{font:500 14px/1 var(--font);color:#323130}
+.pa-run-list{padding:4px 0}
+.pa-run-row{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid #f0f0f0;font:400 13px/1 var(--font);cursor:pointer}
+.pa-run-row.highlighted{background:#e8f4fd;border-left:3px solid #0078d4}
+.pa-run-dot{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.run-ok{background:#d4edda;color:#155724}.run-fail{background:#f8d7da;color:#721c24}
+.pa-run-meta{flex:1;color:#605e5c;font-size:12px}
+.pa-annotation{background:#fff8e1;border:1px solid #f9a825;border-radius:var(--shape-sm);padding:8px 12px;margin:8px 16px;font:400 12px/1.4 var(--font);color:#e65100}
+.pa-step-list{padding:12px 20px}
+.pa-step{border:1px solid #ddd;border-radius:var(--shape-sm);margin-bottom:8px;overflow:hidden}
+.pa-step-header{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f9f9f9}
+.pa-step-name{font:500 13px/1 var(--font);color:#323130;flex:1}
+.pa-step-body{padding:12px;border-top:1px solid #ddd}
+.pa-field-label{font:500 11px/1 var(--font);color:#605e5c;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.pa-field-val{background:#f3f2f1;border-radius:var(--shape-xs);padding:6px 10px;font:400 11px/1.5 var(--font-mono);word-break:break-all}
+.pa-field-val.bad{color:#a80000}.pa-field-val.good{color:#107c10}
+.pa-raw-btn{background:#fff;border:1px solid #0078d4;color:#0078d4;border-radius:var(--shape-xs);padding:4px 10px;font:500 11px/1 var(--font);cursor:pointer;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+.pa-expr-mock{background:#1e2a28;border-radius:var(--shape-sm);padding:12px;font:400 12px/1.6 var(--font-mono);color:#9ad1c8;border:2px solid #f9a825;word-break:break-all;margin:8px 0}
+.pa-expr-note{background:#fff8e1;border:1px dashed #f9a825;border-radius:var(--shape-xs);padding:8px;font:400 12px/1.4 var(--font);color:#7a2e00;margin-top:4px}
+.pa-btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.pa-btn-ok{background:#0078d4;color:#fff;border:none;border-radius:var(--shape-xs);padding:6px 16px;font:500 13px/1 var(--font);cursor:pointer}
+.pa-btn-cancel{background:#fff;color:#0078d4;border:1px solid #0078d4;border-radius:var(--shape-xs);padding:6px 16px;font:500 13px/1 var(--font);cursor:pointer}
+
+.hs-wf{padding:20px;background:#fff}
+.hs-wf-hdr{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #e5e7eb}
+.hs-wf-name{font:500 15px/1 var(--font);color:#1a1a2e;flex:1}
+.hs-toggle{display:flex;align-items:center;gap:6px;font:500 12px/1 var(--font)}
+.hs-pill{width:36px;height:20px;border-radius:var(--shape-full);position:relative;background:#00bda5}
+.hs-pill::after{content:'';position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#fff}
+.hs-steps{display:flex;flex-direction:column;align-items:center}
+.hs-step{background:#fff;border:2px solid #e5e7eb;border-radius:var(--shape-md);padding:12px 20px;min-width:260px;text-align:center}
+.hs-step--trigger{border-color:#7c3aed;background:#f5f3ff}
+.hs-step--action{border-color:var(--md-primary);background:#f0fdf9}
+.hs-step--end{border-color:var(--color-success);background:#f0fdf4}
+.hs-step-icon{font-size:18px;margin-bottom:4px}
+.hs-step-label{font:500 13px/1.3 var(--font);color:#1a1a2e}
+.hs-step-sub{font:400 11px/1.3 var(--font);color:#6b7280;margin-top:2px}
+.hs-connector{width:2px;height:20px;background:#9ca3af;margin:0 auto}
+
+.fc-record{padding:16px;background:#fff}
+.fc-title{font:500 14px/1 var(--font);color:#1a1a2e;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--md-primary)}
+.fc-field{display:flex;border-bottom:1px solid #f0f0f0;padding:7px 0;align-items:flex-start}
+.fc-label{width:110px;font:500 11px/1 var(--font);color:#6b7280;text-transform:uppercase;letter-spacing:.04em;padding-top:3px;flex-shrink:0}
+.fc-val{flex:1;font:400 13px/1.4 var(--font);padding:2px 8px;border-radius:var(--shape-xs)}
+.fc-val.bad{background:#fef2f2;color:#991b1b;font-family:var(--font-mono);font-size:11px}
+.fc-val.good{background:#f0fdf4;color:#166534}
+
+.owa-app{display:flex;min-height:180px}
+.owa-nav{width:170px;background:#0078d4;padding:8px 0;flex-shrink:0}
+.owa-shared-tag{background:rgba(0,0,0,.2);padding:6px 12px;margin-bottom:4px;color:#fff;font:500 11px/1.4 var(--font)}
+.owa-folder{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;color:rgba(255,255,255,.8);font:400 13px/1 var(--font);cursor:pointer}
+.owa-folder.sel{background:rgba(255,255,255,.2);color:#fff}
+.owa-badge{background:#d13438;color:#fff;border-radius:var(--shape-full);padding:1px 6px;font:400 10px/1.4 var(--font)}
+.owa-main{flex:1;background:#f8f8f8}
+.owa-email{background:#fff5e1;padding:10px 16px;border-bottom:1px solid #ddd}
+.owa-sender{font:500 13px/1 var(--font);color:#323130}
+.owa-subject{font:400 12px/1 var(--font);color:#605e5c;margin-top:3px}
+.owa-note{background:#fde68a;border-left:4px solid #d97706;padding:8px 12px;font:400 12px/1.4 var(--font);color:#92400e}
+
+.ms-sec{padding:16px;background:#fff}
+.ms-sec-hdr{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:2px solid #0078d4;margin-bottom:12px}
+.ms-logo{background:#0078d4;color:#fff;padding:4px 10px;border-radius:var(--shape-xs);font:500 12px/1 var(--font)}
+.ms-title{font:500 15px/1 var(--font);color:#1a1a2e}
+.ms-tab-row{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid #ddd}
+.ms-tab{padding:6px 14px;border:none;background:none;font:500 12px/1 var(--font);color:#605e5c;cursor:pointer;border-bottom:2px solid transparent}
+.ms-tab.active{color:#0078d4;border-bottom-color:#0078d4}
+.ms-add{background:#0078d4;color:#fff;border:none;border-radius:var(--shape-xs);padding:5px 14px;font:500 12px/1 var(--font);cursor:pointer;float:right;margin-bottom:8px}
+.ms-tbl{width:100%;border-collapse:collapse;clear:both}
+.ms-tbl th{background:#f3f2f1;padding:6px 12px;text-align:left;font:500 11px/1 var(--font);color:#605e5c;text-transform:uppercase}
+.ms-tbl td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font:400 13px/1 var(--font);color:#323130}
+
+.option-card{border-radius:var(--shape-lg);overflow:hidden;border:1px solid var(--md-outline-variant);background:var(--md-surface-lowest);box-shadow:var(--elev-1);margin-bottom:20px;transition:box-shadow .2s}
+.option-card:hover{box-shadow:var(--elev-3)}
+.option-card.featured{border:2px solid var(--md-primary);box-shadow:var(--elev-2)}
+.option-card__hdr{padding:20px 24px;border-bottom:1px solid var(--md-outline-variant)}
+.option-card__title{font:400 24px/1.3 var(--font);color:var(--md-on-surface);margin:8px 0 12px}
+.option-card__body{padding:20px 24px}
+.option-card__cta{padding:14px 24px;background:var(--md-surface-low);border-top:1px solid var(--md-outline-variant)}
+.expand-btn{display:flex;align-items:center;gap:8px;background:none;border:none;padding:8px 0;font:500 14px/1 var(--font);color:var(--md-primary);cursor:pointer}
+.expand-icon{transition:transform .2s;display:inline-block}
+.expand-btn[aria-expanded="true"] .expand-icon{transform:rotate(180deg)}
+.expandable{display:none}
+.expandable.is-open{display:block}
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+@media(max-width:580px){.pros-cons{grid-template-columns:1fr}}
+.pros,.cons{border-radius:var(--shape-sm);padding:12px}
+.pros{background:var(--color-success-container)}
+.cons{background:var(--md-error-container)}
+.pros h4{color:var(--color-success);margin-bottom:6px;font:500 13px/1 var(--font)}
+.cons h4{color:var(--md-error);margin-bottom:6px;font:500 13px/1 var(--font)}
+.pros ul,.cons ul{list-style:none}
+.pros li,.cons li{font:400 13px/1.5 var(--font);padding:2px 0 2px 16px;position:relative}
+.pros li::before{content:'✓';position:absolute;left:0;color:var(--color-success)}
+.cons li::before{content:'✗';position:absolute;left:0;color:var(--md-error)}
+
+.md3-table-wrap{overflow-x:auto;border-radius:var(--shape-md);box-shadow:var(--elev-1)}
+.md3-table{width:100%;border-collapse:collapse;background:var(--md-surface-lowest)}
+.md3-table th{background:var(--md-inverse-surface);color:var(--md-inverse-on-surface);padding:10px 14px;font:500 11px/1 var(--font);text-align:left;text-transform:uppercase;letter-spacing:.05em}
+.md3-table td{padding:10px 14px;border-bottom:1px solid var(--md-outline-variant);font:400 14px/1.4 var(--font);vertical-align:middle}
+.md3-table tr:last-child td{border-bottom:none}
+.md3-table .row-now td{background:var(--md-primary-container)}
+.md3-table .row-phase2 td{background:var(--md-primary-container)}
+.md3-table tr:hover td{background:var(--md-surface-low)}
+.md3-table .row-now:hover td,.md3-table .row-phase2:hover td{filter:brightness(.97)}
+.phase-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--shape-full);font:500 12px/1 var(--font);white-space:nowrap}
+.phase-now{background:var(--md-error-container);color:var(--md-on-error-container)}
+.phase-week{background:var(--color-warning-container);color:var(--color-on-warning-container)}
+.phase-month{background:var(--color-success-container);color:var(--color-on-success-container)}
+
+.esc-card{border-radius:var(--shape-xl);overflow:hidden;box-shadow:var(--elev-3);margin-bottom:24px}
+.esc-header{background:linear-gradient(135deg,var(--md-primary) 0%,#1a3a50 100%);padding:32px 24px;text-align:center}
+.esc-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;border:3px solid rgba(255,255,255,.4)}
+.esc-title{font:400 28px/1.2 var(--font);color:#fff;margin-bottom:8px}
+.esc-sub{font:400 16px/1.4 var(--font);color:rgba(255,255,255,.8)}
+.esc-body{padding:28px 24px;background:var(--md-surface-lowest)}
+.checklist{list-style:none;background:var(--md-surface-low);border-radius:var(--shape-md);padding:16px;margin:16px 0}
+.checklist li{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--md-outline-variant);font:400 14px/1.5 var(--font)}
+.checklist li:last-child{border-bottom:none}
+.ck-num{width:24px;height:24px;border-radius:50%;background:var(--md-primary);color:var(--md-on-primary);display:flex;align-items:center;justify-content:center;font:700 11px/1 var(--font);flex-shrink:0;margin-top:2px}
+.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+@media(max-width:480px){.platform-grid{grid-template-columns:1fr}}
+.platform-card{border-radius:var(--shape-md);padding:16px}
+.platform-card--win{background:var(--color-info-container)}
+.platform-card--mac{background:var(--md-surface-high)}
+.platform-card h4{font:500 14px/1 var(--font);margin-bottom:10px}
+.platform-card--win h4{color:var(--color-on-info-container)}
+kbd{display:inline-block;background:var(--md-inverse-surface);color:var(--md-inverse-on-surface);border-radius:var(--shape-xs);padding:2px 8px;font:400 13px/1.4 var(--font-mono);box-shadow:0 2px 0 rgba(0,0,0,.3)}
+.email-tpl{background:var(--md-surface-container);border-radius:var(--shape-md);padding:16px;margin:16px 0;position:relative}
+.email-subject{display:flex;align-items:center;gap:8px;background:var(--md-surface-high);border-radius:var(--shape-sm);padding:8px 12px;margin-bottom:12px;flex-wrap:wrap}
+.email-subject-label{font:500 12px/1 var(--font);color:var(--md-on-surface-variant)}
+.email-subject-val{font:400 14px/1 var(--font);color:var(--md-on-surface);flex:1}
+
+.disclosure-btn{width:100%;display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--md-surface-container);border:1px solid var(--md-outline-variant);border-radius:var(--shape-md);font:500 15px/1 var(--font);color:var(--md-on-surface);cursor:pointer;transition:background .15s}
+.disclosure-btn:hover{background:var(--md-surface-high)}
+.disclosure-icon{margin-left:auto;color:var(--md-on-surface-variant)}
+.disclosure-content{display:none;border:1px solid var(--md-outline-variant);border-top:none;border-radius:0 0 var(--shape-md) var(--shape-md);padding:20px;margin-bottom:24px}
+.disclosure-content.is-open{display:block}
+.ref-table{width:100%;border-collapse:collapse}
+.ref-table td{padding:8px 14px;border-bottom:1px solid var(--md-outline-variant);font:400 14px/1.4 var(--font)}
+.ref-table tr:nth-child(odd) td{background:var(--md-surface-low)}
+.ref-table td:first-child{font:500 14px/1.4 var(--font);color:var(--md-on-surface);width:40%}
+.ref-table td:last-child{color:var(--md-primary)}
+.section-heading{font:400 24px/1.3 var(--font);color:var(--md-on-surface);margin-bottom:6px}
+.section-sub{font:400 14px/1.5 var(--font);color:var(--md-on-surface-variant);margin-bottom:20px}
+.site-footer{background:var(--md-inverse-surface);color:var(--md-inverse-on-surface);padding:32px 24px;text-align:center;border-top:4px solid var(--md-primary)}
+.site-footer p{opacity:.9;margin-bottom:8px;font:400 14px/1.5 var(--font)}
+.site-footer a{color:var(--md-inverse-primary)}
+.footer-meta{opacity:.6;font-size:12px!important;margin-top:16px}
+@media(max-width:640px){.site-header h1{font-size:24px}.container{padding:16px 12px}.md3-card{padding:16px}.option-card__hdr,.option-card__body,.option-card__cta{padding:16px}.esc-body{padding:20px 16px}}
+@media print{.stepper-bar{position:static}.md3-card--elevated{box-shadow:none;border:1px solid var(--md-outline-variant)}.site-header,.site-footer,.esc-header{-webkit-print-color-adjust:exact;print-color-adjust:exact}.md3-card,.option-card{break-inside:avoid}}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="brand-badge">
-                <div class="brand-icon">&#128075;</div>
-                <span>HTT Brands</span>
-            </div>
-            <h1>Troubleshooting Cloud Flow Issues</h1>
-            <p class="header-subtitle">Quick diagnostic guide for Power Automate</p>
+<header class="site-header">
+  <div class="site-header__badge"><div class="site-header__icon">🤝</div><span>HTT Brands</span></div>
+  <h1>BrandONE FranConnect Integration Guide</h1>
+  <p class="site-header__sub">HubSpot → Power Automate → FranConnect &nbsp;|&nbsp; Bishops Leads</p>
+</header>
+
+<div class="stepper-bar">
+  <div class="stepper">
+    <div class="step completed"><div class="step__node">✓</div><div class="step__label">Flow Setup</div></div>
+    <div class="step completed"><div class="step__node">✓</div><div class="step__label">Email Delivery</div></div>
+    <div class="step active"><div class="step__node">3</div><div class="step__label">Data Fix</div></div>
+    <div class="step upcoming"><div class="step__node">4</div><div class="step__label">All Done! 🎉</div></div>
+  </div>
+</div>
+
+<main class="container">
+
+<!-- SECTION 1: CONFIDENCE BANNER -->
+<div class="md3-card md3-card--elevated md3-card--tinted" style="border-left:4px solid var(--md-primary)">
+  <div class="md3-card__header">
+    <div class="md3-card__icon" style="background:var(--md-primary-container);font-size:28px">🎉</div>
+    <div>
+      <div class="md3-card__title">You're Almost There, Olivia!</div>
+      <div class="md3-card__subtitle">Leads are reaching FranConnect — that's the hardest part. Now we fix the data.</div>
+    </div>
+  </div>
+  <div class="chips-row">
+    <span class="md3-chip chip-success">✅ 3 of 4 Steps Complete</span>
+    <span class="md3-chip chip-primary">⚡ Flow is Running</span>
+    <span class="md3-chip chip-info">📬 Emails Arriving</span>
+    <span class="md3-chip chip-warning">⏱ Fastest fix: ~15 minutes</span>
+  </div>
+  <div style="margin-top:16px;font:400 15px/1.7 var(--font,sans-serif);color:var(--md-on-surface)">
+    <p>You've already done the hard work: you got Power Automate connected, the email trigger working, and confirmed that lead records are actually being created in FranConnect. That's a real accomplishment.</p>
+    <p style="margin-top:10px">The remaining issue is that the <strong>Compose actions</strong> in your flow are reading the wrong portion of the email text — they're grabbing HubSpot's logo image description and CDN image links instead of the actual lead data. This guide gives you three different ways to fix it, starting with the fastest.</p>
+  </div>
+</div>
+
+<!-- SECTION 2: PHASE 2 — ACTIVE ISSUE -->
+<div id="phase2" class="md3-card md3-card--elevated">
+  <div class="md3-card__header">
+    <div class="md3-card__icon" style="background:var(--md-error-container);font-size:28px">🔴</div>
+    <div>
+      <div class="md3-card__title">Phase 2: Fix the Data — START HERE</div>
+      <div class="md3-card__subtitle">Compose expressions are reading the wrong part of the email text</div>
+    </div>
+  </div>
+  <div class="chips-row" style="margin-bottom:20px">
+    <span class="md3-chip chip-error">🔴 Active Issue</span>
+    <span class="md3-chip chip-surface">📍 Compose Actions</span>
+    <span class="md3-chip chip-warning">⏱ ~15 min to fix</span>
+  </div>
+
+  <!-- Root Cause Plain Language -->
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin-bottom:10px">What's Actually Happening</h3>
+  <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:16px">HubSpot notification emails aren't just plain text — they contain HTML with logo images, tracking pixels, styled links, and a footer full of branding URLs. When Power Automate's <strong>Strip HTML</strong> action runs, it strips the tags but keeps the image descriptions (alt text) and converts links to <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:12px">href</code> URLs in brackets. The result is a messy string where the actual field values are buried between image descriptions and CDN URLs.</p>
+
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin-bottom:12px">What FranConnect Is Receiving Right Now</h3>
+  <div class="comparison-grid">
+    <div class="comp-panel comp-panel--broken">
+      <div class="comp-panel__header">❌ What FranConnect Is Getting (Broken)</div>
+      <div class="comp-panel__body">First NameHubSpot [https://static.hsappstatic.net/EmailNotificationSharedAssets/ex/hubspot-logo-stan...] John</div>
+      <div class="comp-panel__note">FranConnect is storing the field label + "HubSpot" + a CDN image URL fragment + the actual value — all jumbled together</div>
+    </div>
+    <div class="comp-panel comp-panel--fixed">
+      <div class="comp-panel__header">✅ What FranConnect Should Get (Fixed)</div>
+      <div class="comp-panel__body">John</div>
+      <div class="comp-panel__note">Just the clean field value — nothing else</div>
+    </div>
+  </div>
+
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin-bottom:12px">Why the Current Expression Is Wrong</h3>
+  <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:12px">The current Compose - First Name action is using <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:12px">first(split(...))</code> which takes everything <em>before</em> the label delimiter — that's the HubSpot header content, not the value. Even if you fix the index, a single split returns everything from the label to the <em>end of the entire email</em>, including all other fields and the HubSpot footer.</p>
+
+  <div class="comparison-grid">
+    <div class="comp-panel comp-panel--broken">
+      <div class="comp-panel__header">❌ Current (Wrong) Expression</div>
+      <div class="comp-panel__body">trim(first(split(body('Strip_HTML'), 'First Name: ')))</div>
+      <div class="comp-panel__note"><strong>Problem:</strong> <code>first()</code> returns index 0 — everything BEFORE "First Name:", not after. Gets header junk.</div>
+    </div>
+    <div class="comp-panel comp-panel--fixed">
+      <div class="comp-panel__header">✅ Fixed (Two-Stage Split)</div>
+      <div class="comp-panel__body">trim(first(split(last(split(body('Strip_HTML'), 'First Name: ')), 'Last Name: ')))</div>
+      <div class="comp-panel__note"><strong>How it works:</strong> Step 1 isolates everything after "First Name:". Step 2 cuts at the next label. What's left is just the value.</div>
+    </div>
+  </div>
+
+  <!-- FranConnect Record Before/After Tabs -->
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin:20px 0 12px">FranConnect Record: Before vs. After the Fix</h3>
+  <div class="ba-group">
+    <div class="ba-tabs">
+      <button class="ba-tab active" onclick="showPanel(this,'before-panel')">❌ Before (Broken)</button>
+      <button class="ba-tab" onclick="showPanel(this,'after-panel')">✅ After (Fixed)</button>
+    </div>
+    <div id="before-panel" class="ba-panel active">
+      <div class="fc-record">
+        <div class="fc-title">👤 Primary Info — Bishops Test Lead</div>
+        <div class="fc-field"><div class="fc-label">First Name</div><div class="fc-val bad">First NameHubSpot [https://static.hsappstatic.net/EmailNotificationSharedAssets/ex/hubspot-logo-stan...]</div></div>
+        <div class="fc-field"><div class="fc-label">Last Name</div><div class="fc-val bad">Last NameHub... (truncated)</div></div>
+        <div class="fc-field"><div class="fc-label">Email</div><div class="fc-val bad">EmailHubSpot [https://static.hsappstatic.net/EmailN...]</div></div>
+        <div class="fc-field"><div class="fc-label">Phone</div><div class="fc-val bad">PhoneHubSpot[https://statichsappstaticnet/EmailNot...]</div></div>
+        <div class="fc-field"><div class="fc-label">City</div><div class="fc-val bad">CityHubSpot [https://static.hsappstatic.net/EmailN...]</div></div>
+      </div>
+    </div>
+    <div id="after-panel" class="ba-panel">
+      <div class="fc-record">
+        <div class="fc-title">👤 Primary Info — Bishops Test Lead</div>
+        <div class="fc-field"><div class="fc-label">First Name</div><div class="fc-val good">John</div></div>
+        <div class="fc-field"><div class="fc-label">Last Name</div><div class="fc-val good">Smith</div></div>
+        <div class="fc-field"><div class="fc-label">Email</div><div class="fc-val good">john.smith@email.com</div></div>
+        <div class="fc-field"><div class="fc-label">Phone</div><div class="fc-val good">(555) 867-5309</div></div>
+        <div class="fc-field"><div class="fc-label">City</div><div class="fc-val good">Chicago</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagnostic Steps -->
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin:24px 0 12px">Step 1: Diagnose Before You Fix — Check the Actual Strip HTML Output</h3>
+  <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:16px">Before changing any expression, look at what the Strip HTML action actually produced for a real email run. This tells you the <em>exact</em> label strings you need to split on.</p>
+
+  <!-- Run History Mockup -->
+  <div class="ui-mockup">
+    <div class="mockup-chrome">
+      <div class="mockup-dots"><div class="mockup-dot dot-red"></div><div class="mockup-dot dot-amber"></div><div class="mockup-dot dot-green"></div></div>
+      <div class="mockup-url">make.powerautomate.com → My flows → [your flow] → Run history</div>
+    </div>
+    <div class="mockup-body">
+      <div class="pa-app">
+        <div class="pa-sidebar">
+          <div class="pa-sidebar-header"><div class="pa-sidebar-logo">⚡ Power Automate</div></div>
+          <div class="pa-sidebar-nav">
+            <div class="pa-sidebar-item">🏠 Home</div>
+            <div class="pa-sidebar-item active">⚡ My flows</div>
+            <div class="pa-sidebar-item">📊 Monitor</div>
+          </div>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container">
-        <!-- 5 Quick Checks -->
-        <section class="card">
-            <div class="card-header">
-                <div class="card-icon" style="background: var(--color-blue-bg);">&#9889;</div>
-                <div class="card-title">
-                    <h2>5 Quick Checks</h2>
-                    <p>Do these first -- solves 80% of issues</p>
-                </div>
+        <div class="pa-main">
+          <div class="pa-topbar"><span class="pa-topbar-title">Bishops Lead Flow — Run history</span></div>
+          <div class="pa-run-list">
+            <div class="pa-run-row highlighted">
+              <div class="pa-run-dot run-fail">✗</div>
+              <div style="flex:1">
+                <div style="font-weight:500;font-size:13px">Today, 2:14 PM</div>
+                <div class="pa-run-meta">Failed — Compose - First Name</div>
+              </div>
+              <div style="font-size:12px;color:#605e5c">8s &nbsp;👉 <strong style="color:#0078d4">Click this row</strong></div>
             </div>
-            <ol class="quick-checks-list">
-                <li>
-                    <div>Are both flows turned <strong>ON</strong>? (green check vs gray off)</div>
-                </li>
-                <li>
-                    <div>Is Office 365 connection showing <strong>"Connected"</strong>?</div>
-                </li>
-                <li>
-                    <div>Are HubSpot emails in <strong>Inbox</strong> (not Junk)?</div>
-                </li>
-                <li>
-                    <div>Are HubSpot workflows showing <strong>"On"</strong> with enrollment history?</div>
-                </li>
-                <li>
-                    <div>Do flows use correct trigger <code>"When a new email arrives in a shared mailbox (V2)"</code>?</div>
-                </li>
-            </ol>
-        </section>
-
-        <!-- Tier 1: Most Likely (80%) -->
-        <section class="card">
-            <div class="card-header">
-                <div class="card-icon" style="background: var(--color-red-bg);">&#128308;</div>
-                <div class="card-title">
-                    <h2>Tier 1: Most Likely (80%)</h2>
-                    <p>Red flags -- check these immediately</p>
-                </div>
+            <div class="pa-run-row">
+              <div class="pa-run-dot run-fail">✗</div>
+              <div style="flex:1"><div style="font-size:13px">Yesterday, 4:07 PM</div><div class="pa-run-meta">Failed</div></div>
+              <div style="font-size:12px;color:#605e5c">6s</div>
             </div>
-
-            <div class="tier tier-red">
-                <div class="tier-header">
-                    <span class="tier-icon">&#128680;</span>
-                    <span>Critical Issues</span>
-                </div>
-
-                <!-- Issue #1 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">1</div>
-                        <div class="issue-title">Flows Not Turned On</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item"><strong>Check:</strong> <code>make.powerautomate.com</code> &rarr; Solutions &rarr; Cloud flows tab</li>
-                            <li class="check-item">Look for <span class="highlight">"Off"</span> (gray) vs <span class="highlight highlight-green">"On"</span> (green)</li>
-                            <li class="fix-item"><strong>Fix:</strong> Click <code>...</code> menu &rarr; Turn on</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Issue #2 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">2</div>
-                        <div class="issue-title">Connection Not Authenticated</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item"><strong>Check:</strong> Data &rarr; Connections</li>
-                            <li class="check-item">Look for <span class="critical">"Can't sign in"</span></li>
-                            <li class="fix-item"><strong>Fix:</strong> Click "Fix connection" and re-authenticate</li>
-                            <li class="fix-item">If still won't turn on: Share connection with "Can use" permission</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Issue #3 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">3</div>
-                        <div class="issue-title">Emails Landing in Junk</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item"><strong>Check:</strong> Open shared mailbox Junk Email folder</li>
-                            <li class="alert-item"><span class="critical">Critical:</span> Power Automate ONLY monitors Inbox, not Junk!</li>
-                            <li class="fix-item"><strong>Fix:</strong> Go to <code>security.microsoft.com/tenantAllowBlockList</code></li>
-                            <li class="fix-item">Add <code>hubspotemail.net</code> as allowed sender</li>
-                            <li class="fix-item">Alternative: Create mail flow rule with <code>SCL=-1</code></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tier 2: Likely -->
-        <section class="card">
-            <div class="card-header">
-                <div class="card-icon" style="background: var(--color-amber-bg);">&#128993;</div>
-                <div class="card-title">
-                    <h2>Tier 2: Likely</h2>
-                    <p>Check these if Tier 1 checks pass</p>
-                </div>
-            </div>
-
-            <div class="tier tier-amber">
-                <div class="tier-header">
-                    <span class="tier-icon">&#9888;&#65039;</span>
-                    <span>Secondary Issues</span>
-                </div>
-
-                <!-- Issue #4 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">4</div>
-                        <div class="issue-title">Wrong Email Trigger</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item"><strong>Must use:</strong> <code>"When a new email arrives in a shared mailbox (V2)"</code></li>
-                            <li class="alert-item"><strong>NOT:</strong> <code>"When a new email arrives (V3)"</code></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Issue #5 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">5</div>
-                        <div class="issue-title">Environment Variables Wrong</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item"><strong>Check:</strong> Solutions &rarr; Environment variables</li>
-                            <li class="check-item">Verify 4 email addresses (no typos)</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Issue #6 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">6</div>
-                        <div class="issue-title">Permissions Not Propagated</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item">Wait <strong>2 hours</strong> after granting Full Access</li>
-                            <li class="fix-item">Then delete/recreate connection</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Issue #7 -->
-                <div class="issue-card">
-                    <div class="issue-header">
-                        <div class="issue-number">7</div>
-                        <div class="issue-title">HubSpot Workflows Not Running</div>
-                    </div>
-                    <div class="issue-content">
-                        <ul>
-                            <li class="check-item"><strong>Check:</strong> Automation &rarr; Workflows showing <strong>"On"</strong></li>
-                            <li class="check-item">Check History tab for enrollments</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tier 3: Advanced -->
-        <section class="card">
-            <div class="card-header">
-                <div class="card-icon" style="background: var(--color-green-bg);">&#128994;</div>
-                <div class="card-title">
-                    <h2>Tier 3: Advanced</h2>
-                    <p>Edge cases and less common issues</p>
-                </div>
-            </div>
-
-            <div class="tier tier-green">
-                <div class="tier-header">
-                    <span class="tier-icon">&#128269;</span>
-                    <span>Advanced Diagnostics</span>
-                </div>
-                <div class="issue-content">
-                    <ul>
-                        <li class="check-item">Conditional Access / MFA issues</li>
-                        <li class="check-item">OAuth consent blocked</li>
-                        <li class="check-item">Solution import failed</li>
-                        <li class="check-item">ZAP (Zero-hour Auto Purge)</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Decision Table -->
-        <section class="card">
-            <div class="card-header">
-                <div class="card-icon" style="background: var(--color-gray-100);">&#128203;</div>
-                <div class="card-title">
-                    <h2>Quick Decision Table</h2>
-                    <p>Match symptoms to likely issues</p>
-                </div>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Symptom</th>
-                            <th>Most Likely Issue</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Flows show "Off"</td>
-                            <td><strong>Issue #1</strong></td>
-                        </tr>
-                        <tr>
-                            <td>"Can't sign in"</td>
-                            <td><strong>Issue #2</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Emails in Junk</td>
-                            <td><strong>Issue #3</strong></td>
-                        </tr>
-                        <tr>
-                            <td>No emails at all</td>
-                            <td><strong>Issue #7</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Flow runs but no action</td>
-                            <td><strong>Issue #4</strong> or <strong>#5</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p><strong>Need Help?</strong></p>
-            <p>Still stuck? Email Tyler with screenshots and the issue number from this guide.</p>
-            <p style="margin-top: var(--space-md); font-size: 0.875rem; opacity: 0.7;">
-                HTT Brands &copy; 2025 -- FranConnect Integration
-            </p>
+          </div>
+          <div class="pa-annotation">👆 Click the highlighted row → expand the "Strip HTML" action → copy the full Outputs text</div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strip HTML step expanded mockup -->
+  <div class="ui-mockup" style="margin-top:12px">
+    <div class="mockup-chrome">
+      <div class="mockup-dots"><div class="mockup-dot dot-red"></div><div class="mockup-dot dot-amber"></div><div class="mockup-dot dot-green"></div></div>
+      <div class="mockup-url">Run details — expanded Strip HTML action</div>
+    </div>
+    <div class="mockup-body">
+      <div class="pa-step-list">
+        <div class="pa-step">
+          <div class="pa-step-header"><span class="pa-step-icon">⚡</span><span class="pa-step-name">When a new email arrives in a shared mailbox (V2)</span><span style="color:#107c10">✓</span></div>
+        </div>
+        <div class="pa-step">
+          <div class="pa-step-header"><span class="pa-step-icon">🔧</span><span class="pa-step-name">Strip HTML</span><span style="color:#107c10">✓</span></div>
+          <div class="pa-step-body">
+            <div class="pa-field-label">Outputs → text</div>
+            <div class="pa-field-val bad">First NameHubSpot [https://static.hsappstatic.net/EmailNotificationSharedAssets/ex/hubspot-logo-stan...] John&#10;Last NameHubSpot [https://...] Smith&#10;EmailHubSpot [https://...] john@email.com&#10;</div>
+            <button class="pa-raw-btn">📋 Copy raw output</button>
+          </div>
+        </div>
+        <div class="pa-step">
+          <div class="pa-step-header"><span class="pa-step-icon">📝</span><span class="pa-step-name">Compose - First Name</span><span style="color:#a80000">✗</span></div>
+          <div class="pa-step-body">
+            <div class="pa-field-label">Inputs → Inputs</div>
+            <div class="pa-field-val bad">First NameHubSpot [https://static.hsappstatic.net/EmailNotificationSharedAssets/ex/...]</div>
+            <div style="font:400 12px/1.4 var(--font,sans-serif);color:#605e5c;margin-top:8px">⚠️ This is what the current <code>first(split(...))</code> expression is capturing — the header garbage, not the value</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="md3-callout callout-warning" style="margin-top:16px">
+    <div class="md3-callout__icon">⚠️</div>
+    <div>
+      <div class="md3-callout__title">Copy the Strip HTML output to Notepad (Windows) or TextEdit (Mac)</div>
+      <div class="md3-callout__body">Paste it in a plain text document so you can read the exact characters between each field label. The label strings you split on must match <strong>exactly</strong> — including any colon, space, or line break — otherwise the split returns nothing.</div>
+    </div>
+  </div>
+
+  <!-- Expression Table -->
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin:24px 0 12px">Step 2: Updated Expressions for All 6 Fields</h3>
+  <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:14px">Replace each Compose action's expression with the corrected two-stage split below. Click <strong>Copy</strong> to grab any expression.</p>
+
+  <div class="expr-table-wrap">
+    <table class="expr-table">
+      <thead><tr><th>Compose Action</th><th>Corrected Expression</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>First Name</td>
+          <td><div class="expr-cell"><code>trim(first(split(last(split(body('Strip_HTML'), 'First Name: ')), 'Last Name: ')))</code><button class="expr-copy" data-copy="trim(first(split(last(split(body('Strip_HTML'), 'First Name: ')), 'Last Name: ')))">Copy</button></div></td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td><div class="expr-cell"><code>trim(first(split(last(split(body('Strip_HTML'), 'Last Name: ')), 'Email: ')))</code><button class="expr-copy" data-copy="trim(first(split(last(split(body('Strip_HTML'), 'Last Name: ')), 'Email: ')))">Copy</button></div></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><div class="expr-cell"><code>trim(first(split(last(split(body('Strip_HTML'), 'Email: ')), 'Phone: ')))</code><button class="expr-copy" data-copy="trim(first(split(last(split(body('Strip_HTML'), 'Email: ')), 'Phone: ')))">Copy</button></div></td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td><div class="expr-cell"><code>trim(first(split(last(split(body('Strip_HTML'), 'Phone: ')), 'City: ')))</code><button class="expr-copy" data-copy="trim(first(split(last(split(body('Strip_HTML'), 'Phone: ')), 'City: ')))">Copy</button></div></td>
+        </tr>
+        <tr>
+          <td>City</td>
+          <td><div class="expr-cell"><code>trim(first(split(last(split(body('Strip_HTML'), 'City: ')), 'State: ')))</code><button class="expr-copy" data-copy="trim(first(split(last(split(body('Strip_HTML'), 'City: ')), 'State: ')))">Copy</button></div></td>
+        </tr>
+        <tr>
+          <td>State</td>
+          <td><div class="expr-cell"><code>trim(first(split(last(split(body('Strip_HTML'), 'State: ')), 'Record Type: ')))</code><button class="expr-copy" data-copy="trim(first(split(last(split(body('Strip_HTML'), 'State: ')), 'Record Type: ')))">Copy</button></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Expression Editor Mockup -->
+  <div class="ui-mockup" style="margin-top:16px">
+    <div class="mockup-chrome">
+      <div class="mockup-dots"><div class="mockup-dot dot-red"></div><div class="mockup-dot dot-amber"></div><div class="mockup-dot dot-green"></div></div>
+      <div class="mockup-url">Power Automate — Edit Compose action → Expression editor</div>
+    </div>
+    <div class="mockup-body" style="padding:16px">
+      <div style="font:500 13px/1 var(--font,sans-serif);color:#323130;margin-bottom:12px">✏️ Compose — First Name</div>
+      <div style="display:flex;gap:8px;border-bottom:1px solid #ddd;margin-bottom:12px">
+        <div style="padding:6px 12px;font:500 12px/1 var(--font,sans-serif);color:#0078d4;border-bottom:2px solid #0078d4">Expression</div>
+        <div style="padding:6px 12px;font:500 12px/1 var(--font,sans-serif);color:#605e5c">Dynamic content</div>
+      </div>
+      <div class="pa-expr-mock">trim(first(split(last(split(body('Strip_HTML'), 'First Name: ')), 'Last Name: ')))</div>
+      <div class="pa-expr-note">💡 Paste your corrected expression here, then click <strong>OK</strong>. Do NOT click anywhere else first — the expression box clears if you click outside it.</div>
+      <div class="pa-btn-row">
+        <button class="pa-btn-cancel">Cancel</button>
+        <button class="pa-btn-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="md3-callout callout-warning" style="margin-top:16px">
+    <div class="md3-callout__icon">⚠️</div>
+    <div>
+      <div class="md3-callout__title">Label matching is case-sensitive and space-sensitive</div>
+      <div class="md3-callout__body">If the stripped email body says <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">First name:</code> (lowercase "n") but your expression says <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">'First Name: '</code> (capital N), the split returns nothing. Always verify against the actual Strip HTML output text.</div>
+    </div>
+  </div>
+
+  <!-- How to test -->
+  <h3 style="font:500 16px/1 var(--font,sans-serif);margin:24px 0 12px">Step 3: Test the Fix</h3>
+  <ol class="md3-steps">
+    <li><div class="step-num">1</div><div class="step-content"><strong>Save the flow</strong> — after updating all 6 Compose expressions, click Save at the top of the flow editor</div></li>
+    <li><div class="step-num">2</div><div class="step-content"><strong>Trigger a test lead</strong> — go to HubSpot → Automation → Workflows → manually enroll a test contact in the Bishops workflow</div></li>
+    <li><div class="step-num">3</div><div class="step-content"><strong>Watch the run history</strong> — go back to Power Automate, open the flow, and watch for a new entry in Run history (usually appears within 1–2 minutes)</div></li>
+    <li><div class="step-num">4</div><div class="step-content"><strong>Click the run and expand each Compose action</strong> — the Inputs value for each should now show just the clean field value (e.g., "John" not "JohnHubSpot [https://...]")</div></li>
+    <li><div class="step-num">5</div><div class="step-content"><strong>Check FranConnect</strong> — open the FranConnect record and confirm that First Name, Last Name, Email, Phone, City, and State all show clean values</div></li>
+  </ol>
+
+  <!-- Gotchas Accordion -->
+  <div style="margin-top:24px">
+    <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)">
+      <span>🔍 Common Gotchas &amp; Edge Cases</span><span class="expand-icon">▼</span>
+    </button>
+    <div class="expandable">
+      <div class="md3-card md3-card--filled" style="margin-top:8px">
+        <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ Split returns empty / blank value</div>
+        <p style="font:400 13px/1.6 var(--font,sans-serif)">The delimiter string in your expression doesn't match the actual text. Open the Strip HTML output, copy the exact characters before and after the value you want, and update your expression to match.</p>
+      </div>
+      <div class="md3-card md3-card--filled" style="margin-top:8px">
+        <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ Value includes a newline or extra space</div>
+        <p style="font:400 13px/1.6 var(--font,sans-serif)">The <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">trim()</code> wrapper handles leading and trailing spaces, but not embedded newlines. If your value still has extra characters, try replacing <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">trim(...)</code> with <code style="background:#1e2a28;color:#9ad1c8;padding:2px 6px;border-radius:4px;font-size:11px">replace(trim(...), decodeUriComponent('%0A'), '')</code></p>
+      </div>
+      <div class="md3-card md3-card--filled" style="margin-top:8px">
+        <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ Last field (State) still includes footer content</div>
+        <p style="font:400 13px/1.6 var(--font,sans-serif)">State is the last field before the HubSpot footer. Splitting on 'Record Type: ' as the end delimiter works only if "Record Type: Lead" appears after State in the stripped email. Check this in the actual Strip HTML output. If the order is different, adjust the delimiter accordingly.</p>
+      </div>
+      <div class="md3-card md3-card--filled" style="margin-top:8px">
+        <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ HubSpot updated their email template and it broke again</div>
+        <p style="font:400 13px/1.6 var(--font,sans-serif)">This is a known fragility of email-parsing approaches. If HubSpot changes their notification email layout, the labels may shift or new content may be injected. See Option F below — sending a plain-text structured email eliminates this fragility.</p>
+      </div>
+      <div class="md3-card md3-card--filled" style="margin-top:8px">
+        <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:10px;color:var(--md-error)">❌ Expression editor in Power Automate clears when I click elsewhere</div>
+        <p style="font:400 13px/1.6 var(--font,sans-serif)">This is a known Power Automate UI behavior. Type or paste the expression in the Expression tab, then immediately click <strong>OK</strong> — do not click anywhere else first. If the expression disappears, paste it again.</p>
+      </div>
+    </div>
+  </div>
+</div><!-- end phase2 card -->
+
+<!-- SECTION 3: THREE PATHS FORWARD -->
+<div style="margin-top:32px;margin-bottom:8px">
+  <h2 class="section-heading">Three Paths Forward</h2>
+  <p class="section-sub">Choose based on how much time you have and how permanent you want the fix to be. All three result in clean data in FranConnect.</p>
+</div>
+
+<!-- OPTION A -->
+<div class="option-card" id="option-a">
+  <div class="option-card__hdr">
+    <div class="chips-row" style="margin-top:0;margin-bottom:8px">
+      <span class="md3-chip chip-surface">🔧 Option A</span>
+      <span class="md3-chip chip-warning">⏱ ~15 minutes</span>
+      <span class="md3-chip chip-success">💰 Free</span>
+      <span class="md3-chip chip-surface">👤 Olivia</span>
+    </div>
+    <h3 class="option-card__title">Fix the Compose Expressions</h3>
+    <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Update the 6 Compose actions in your existing flow to use two-stage split expressions. Fastest fix — works on what you already have.</p>
+  </div>
+  <div class="option-card__body">
+    <div class="md3-callout callout-info" style="margin-bottom:16px">
+      <div class="md3-callout__icon">📋</div>
+      <div>
+        <div class="md3-callout__title">The complete step-by-step and all 6 expressions are in the "Phase 2: Fix the Data" section above</div>
+        <div class="md3-callout__body">Scroll up to <a href="#phase2">Phase 2 — START HERE</a> for the full diagnostic walkthrough, expression table with copy buttons, and the expression editor mockup.</div>
+      </div>
+    </div>
+    <div class="md3-callout callout-warning">
+      <div class="md3-callout__icon">⚠️</div>
+      <div>
+        <div class="md3-callout__title">This approach is fragile — it will break if HubSpot changes their email template</div>
+        <div class="md3-callout__body">If HubSpot updates the layout of their notification emails (which they do occasionally), the label strings change and the expressions stop working. It's a fix for right now — not forever.</div>
+      </div>
+    </div>
+    <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)" style="margin-top:12px">
+      <span>Pros &amp; Cons</span><span class="expand-icon">▼</span>
+    </button>
+    <div class="expandable">
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros">
+          <h4>✓ Pros</h4>
+          <ul>
+            <li>Fastest — 15 minutes</li>
+            <li>No new tools or accounts needed</li>
+            <li>Works with your existing flow</li>
+            <li>No HubSpot changes required</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ Cons</h4>
+          <ul>
+            <li>Breaks if HubSpot updates their email template</li>
+            <li>Fragile — depends on exact whitespace in email</li>
+            <li>Requires manual re-inspection of Strip HTML output</li>
+            <li>No visibility if it silently breaks again</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="option-card__cta">
+    <a href="#phase2" style="background:var(--md-primary);color:var(--md-on-primary);display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--shape-full);font:500 14px/1 var(--font,sans-serif);text-decoration:none">↑ Jump to Fix Steps &amp; Expressions</a>
+  </div>
+</div>
+
+<!-- OPTION F -->
+<div class="option-card featured" id="option-f">
+  <div class="option-card__hdr">
+    <div class="chips-row" style="margin-top:0;margin-bottom:8px">
+      <span class="md3-chip chip-new">⭐ Newly Discovered</span>
+      <span class="md3-chip chip-primary">🏆 Recommended Short-Term</span>
+      <span class="md3-chip chip-warning">⏱ ~30–60 minutes</span>
+      <span class="md3-chip chip-success">💰 Free</span>
+      <span class="md3-chip chip-surface">👤 Olivia</span>
+    </div>
+    <h3 class="option-card__title">Send a Plain-Text Structured Email from HubSpot</h3>
+    <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Reconfigure the HubSpot workflow to send a clean plain-text email with predictable formatting. Eliminates image noise and makes the expressions reliable — no more guessing about labels.</p>
+  </div>
+  <div class="option-card__body">
+    <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:16px">The root problem isn't the expressions — it's that HubSpot's default notification emails are full of HTML branding, images, and tracking pixels that pollute the stripped text. If you control what HubSpot sends, you can send a <strong>clean, predictable plain-text email</strong> that always looks exactly the same.</p>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin-bottom:12px">How to Set This Up in HubSpot</h4>
+    <ol class="md3-steps">
+      <li><div class="step-num">1</div><div class="step-content"><strong>Go to HubSpot → Automation → Workflows</strong> — open the Bishops workflow that currently sends the notification email</div></li>
+      <li><div class="step-num">2</div><div class="step-content"><strong>Find the "Send internal email notification" action</strong> — click on it to open the action editor</div></li>
+      <li><div class="step-num">3</div><div class="step-content"><strong>Replace the email body</strong> with the plain-text template below — use the HubSpot personalization token picker to insert each contact property</div></li>
+      <li><div class="step-num">4</div><div class="step-content"><strong>Set the email format to plain text</strong> — look for a "Format" or "Send as" option in the action and select "Plain text" if available. If not, use a minimal template with no images.</div></li>
+      <li><div class="step-num">5</div><div class="step-content"><strong>Save and test</strong> — manually enroll a test contact, then check the flow run history to confirm the Strip HTML output now shows clean label: value lines</div></li>
+    </ol>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin:20px 0 10px">HubSpot Email Template (Plain Text)</h4>
+    <p style="font:400 13px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant);margin-bottom:10px">Copy this template exactly. The colons and spaces after each label must match your Power Automate expressions.</p>
+    <div class="code-block">
+      <button class="copy-btn" data-copy="First Name: {{contact.firstname}}&#10;Last Name: {{contact.lastname}}&#10;Email: {{contact.email}}&#10;Phone: {{contact.phone}}&#10;City: {{contact.city}}&#10;State: {{contact.state}}&#10;Record Type: Lead&#10;Source: Bishops Inquiry Form">Copy</button>
+      <pre>First Name: {{contact.firstname}}
+Last Name: {{contact.lastname}}
+Email: {{contact.email}}
+Phone: {{contact.phone}}
+City: {{contact.city}}
+State: {{contact.state}}
+Record Type: Lead
+Source: Bishops Inquiry Form</pre>
+    </div>
+
+    <div class="md3-callout callout-success" style="margin-top:16px">
+      <div class="md3-callout__icon">✅</div>
+      <div>
+        <div class="md3-callout__title">Why this makes Option A's expressions reliable</div>
+        <div class="md3-callout__body">When HubSpot sends this exact template, the Strip HTML output will look like the template above — no image URLs, no alt text, no CDN links. The two-stage split expressions in your Compose actions will work perfectly and keep working even if HubSpot updates their branding.</div>
+      </div>
+    </div>
+
+    <!-- HubSpot Workflow Mockup -->
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin:20px 0 10px">What the Updated HubSpot Workflow Looks Like</h4>
+    <div class="ui-mockup">
+      <div class="mockup-chrome">
+        <div class="mockup-dots"><div class="mockup-dot dot-red"></div><div class="mockup-dot dot-amber"></div><div class="mockup-dot dot-green"></div></div>
+        <div class="mockup-url">app.hubspot.com → Automation → Workflows → Bishops Lead Notification</div>
+      </div>
+      <div class="mockup-body">
+        <div class="hs-wf">
+          <div class="hs-wf-hdr">
+            <div class="hs-wf-name">📋 Bishops Lead Notification Workflow</div>
+            <div class="hs-toggle"><div class="hs-pill"></div><span style="color:#00bda5">On</span></div>
+          </div>
+          <div class="hs-steps">
+            <div class="hs-step hs-step--trigger"><div class="hs-step-icon">⚡</div><div class="hs-step-label">Enrollment Trigger</div><div class="hs-step-sub">Form submitted: Bishops Inquiry</div></div>
+            <div class="hs-connector"></div>
+            <div class="hs-step hs-step--action"><div class="hs-step-icon">📧</div><div class="hs-step-label">Send internal email notification</div><div class="hs-step-sub" style="color:var(--md-primary)">✅ Updated: plain-text structured format</div></div>
+            <div class="hs-connector"></div>
+            <div class="hs-step hs-step--end"><div class="hs-step-icon">🎯</div><div class="hs-step-label">End of workflow</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)" style="margin-top:16px">
+      <span>Pros &amp; Cons</span><span class="expand-icon">▼</span>
+    </button>
+    <div class="expandable">
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros">
+          <h4>✓ Pros</h4>
+          <ul>
+            <li>Clean, predictable output every time</li>
+            <li>Immune to HubSpot template changes</li>
+            <li>No additional cost</li>
+            <li>Works with existing Power Automate flow</li>
+            <li>Easy to add new fields later</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ Cons</h4>
+          <ul>
+            <li>Requires HubSpot workflow edit access</li>
+            <li>Still relies on email delivery (Junk filter risk)</li>
+            <li>Power Automate expressions still needed</li>
+            <li>Not as robust as a direct API integration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="option-card__cta">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font:400 13px/1.4 var(--font,sans-serif);color:var(--md-on-surface-variant)">Do Option F first, then apply Option A's expressions — together they're the most reliable free solution.</span>
+      <a href="https://app.hubspot.com" target="_blank" rel="noopener" style="background:var(--md-primary);color:var(--md-on-primary);display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--shape-full);font:500 14px/1 var(--font,sans-serif);text-decoration:none">Open HubSpot →</a>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION C -->
+<div class="option-card" id="option-c">
+  <div class="option-card__hdr">
+    <div class="chips-row" style="margin-top:0;margin-bottom:8px">
+      <span class="md3-chip chip-info">🏗️ Option C</span>
+      <span class="md3-chip chip-surface">🏆 Best Long-Term</span>
+      <span class="md3-chip chip-surface">⏱ 1–2 days (Tyler's work)</span>
+      <span class="md3-chip chip-warning">💰 Depends on FranConnect plan</span>
+      <span class="md3-chip chip-surface">👤 Tyler</span>
+    </div>
+    <h3 class="option-card__title">Skip Email Parsing — Use FranConnect's REST API or Marketplace Connector</h3>
+    <p style="font:400 14px/1.6 var(--font,sans-serif);color:var(--md-on-surface-variant)">Push lead data directly from HubSpot to FranConnect via API — no email, no parsing, no fragility. The most reliable architecture long-term.</p>
+  </div>
+  <div class="option-card__body">
+    <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:16px">The entire email-parsing chain (HubSpot → email → shared mailbox → Strip HTML → split expressions → FranConnect email) exists because there was no direct integration available at the time. FranConnect has a REST API and a HubSpot Marketplace connector that, if available on your plan, would eliminate the intermediary steps entirely.</p>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin-bottom:12px">Current Architecture (Fragile)</h4>
+    <div class="code-block">
+      <pre>HubSpot Form Submission
+       ↓
+HubSpot Workflow → sends notification email
+       ↓
+Office 365 Shared Mailbox (hubspot-leads@httbrands.com)
+       ↓
+Power Automate Trigger (V2 shared mailbox)
+       ↓
+Strip HTML action
+       ↓
+6× Compose actions (two-stage split expressions)  ← CURRENT PAIN POINT
+       ↓
+Send Email to FranConnect (Bishops@myfranconnect.com)
+       ↓
+FranConnect creates lead record</pre>
+    </div>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin:16px 0 12px">Proposed Architecture (Reliable)</h4>
+    <div class="code-block">
+      <pre>HubSpot Form Submission
+       ↓
+HubSpot Workflow → HTTP action (or Marketplace connector)
+       ↓
+FranConnect REST API  ← direct, no email, no parsing
+       ↓
+FranConnect creates lead record  ✅</pre>
+    </div>
+
+    <div class="md3-callout callout-info" style="margin-top:16px">
+      <div class="md3-callout__icon">📋</div>
+      <div>
+        <div class="md3-callout__title">What Tyler needs to check first</div>
+        <div class="md3-callout__body">
+          <ul style="margin-top:6px;padding-left:16px">
+            <li style="margin-bottom:4px">Does FranConnect's current plan include REST API access? (check <a href="https://helpdesk.franconnect.com" target="_blank" rel="noopener">helpdesk.franconnect.com</a>)</li>
+            <li style="margin-bottom:4px">Is the FranConnect HubSpot Marketplace connector available and compatible with the Bishops franchise setup?</li>
+            <li style="margin-bottom:4px">Does FranConnect support the required lead fields (First Name, Last Name, Email, Phone, City, State, Record Type) via API?</li>
+            <li>What authentication method does FranConnect's API use (API key, OAuth, etc.)?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin:16px 0 10px">FranConnect Email Parser Alternative</h4>
+    <p style="font:400 14px/1.7 var(--font,sans-serif);margin-bottom:12px">If the REST API isn't available on the current plan, FranConnect has a structured email parser that accepts a specifically formatted plain-text email. The format below is more reliable than parsing HubSpot's HTML because FranConnect controls the expected structure:</p>
+    <div class="code-block">
+      <button class="copy-btn" data-copy="Subject: New Franchise Inquiry for Bishops&#10;&#10;First Name: John&#10;Last Name: Smith&#10;Email: john.smith@email.com&#10;Phone: 555-867-5309&#10;City: Chicago&#10;State: IL&#10;Record Type: Lead&#10;Source: BrandONE Website">Copy</button>
+      <pre>Subject: New Franchise Inquiry for Bishops
+
+First Name: John
+Last Name: Smith
+Email: john.smith@email.com
+Phone: 555-867-5309
+City: Chicago
+State: IL
+Record Type: Lead
+Source: BrandONE Website</pre>
+    </div>
+
+    <button class="expand-btn" aria-expanded="false" onclick="toggleExpand(this)" style="margin-top:16px">
+      <span>Pros &amp; Cons</span><span class="expand-icon">▼</span>
+    </button>
+    <div class="expandable">
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros">
+          <h4>✓ Pros</h4>
+          <ul>
+            <li>Most reliable — no email parsing at all</li>
+            <li>Immune to HubSpot template or email delivery changes</li>
+            <li>Can pass any field from HubSpot to FranConnect</li>
+            <li>Scales to multiple franchises easily</li>
+            <li>No ongoing maintenance for expression strings</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ Cons</h4>
+          <ul>
+            <li>Requires Tyler's involvement (API setup)</li>
+            <li>FranConnect API may require plan upgrade</li>
+            <li>1–2 day implementation timeline</li>
+            <li>HubSpot HTTP action requires technical setup</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="option-card__cta">
+    <span style="font:400 13px/1.4 var(--font,sans-serif);color:var(--md-on-surface-variant)">Start with Option A or F now. Tyler will evaluate the API option in parallel and schedule implementation when confirmed.</span>
+  </div>
+</div>
+<!-- SECTION 4: PHASED ROADMAP TABLE -->
+<div style="margin-top:32px;margin-bottom:8px">
+  <h2 class="section-heading">Phased Roadmap — What to Do When</h2>
+  <p class="section-sub">A clear timeline from right now through the long-term fix. The highlighted row is where Olivia is today.</p>
+</div>
+<div class="md3-card md3-card--elevated">
+  <div class="md3-table-wrap">
+    <table class="md3-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>When</th>
+          <th>Action</th>
+          <th>Owner</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-now">
+          <td><span class="phase-badge phase-now">🔴 Phase 0 — NOW</span></td>
+          <td>Today</td>
+          <td>Inspect the actual Strip HTML output from a recent failed run. Copy it into Notepad (Windows) or TextEdit (Mac) and identify the exact label strings.</td>
+          <td>Olivia</td>
+          <td><a href="#phase2">See Phase 2</a></td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge phase-now">🔴 Phase 0 — NOW</span></td>
+          <td>Today (~15 min)</td>
+          <td>Update all 6 Compose expressions with the two-stage split pattern from the expression table. Save the flow and run a test lead.</td>
+          <td>Olivia</td>
+          <td><a href="#option-a">Option A</a></td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge phase-week">🟡 Phase 1 — This Week</span></td>
+          <td>Within 2–3 days</td>
+          <td>Reconfigure the HubSpot workflow to send a plain-text structured email (the template in Option F). Re-run a test lead to confirm the Strip HTML output is now clean. Update expressions if any label strings changed.</td>
+          <td>Olivia</td>
+          <td><a href="#option-f">Option F</a></td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge phase-week">🟡 Phase 1 — This Week</span></td>
+          <td>Within 1 week</td>
+          <td>Tyler checks FranConnect API availability and plan eligibility. If available, scope the direct integration work.</td>
+          <td>Tyler</td>
+          <td><a href="#option-c">Option C</a></td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge phase-month">🟢 Phase 2 — This Month</span></td>
+          <td>When confirmed</td>
+          <td>If FranConnect REST API is available: Tyler implements direct HubSpot → FranConnect API push. Decommissions the email-parsing flow once verified stable for 2 weeks.</td>
+          <td>Tyler</td>
+          <td><a href="#option-c">Option C</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 5: PHASE 1 REFERENCE (collapsible) -->
+<button class="disclosure-btn" onclick="toggleDisclosure(this)" aria-expanded="false">
+  <span>📋 Phase 1 Reference — Flow &amp; Connection Issues (Already Resolved for Your Setup ✅)</span>
+  <span class="disclosure-icon">▼</span>
+</button>
+<div class="disclosure-content">
+  <div class="md3-callout callout-success" style="margin-bottom:20px">
+    <div class="md3-callout__icon">✅</div>
+    <div>
+      <div class="md3-callout__title">Olivia has already cleared all Phase 1 checks</div>
+      <div class="md3-callout__body">Leads are reaching FranConnect, which means the flow is On, the connection is working, emails aren't stuck in Junk, and the V2 trigger is correct. This section is here for reference only — in case the flow stops running in the future.</div>
+    </div>
+  </div>
+
+  <h3 style="font:500 15px/1 var(--font,sans-serif);margin-bottom:12px">⚡ Quick Checks (2 Minutes Each)</h3>
+  <div class="md3-table-wrap" style="margin-bottom:20px">
+    <table class="md3-table">
+      <thead><tr><th>#</th><th>What to Check</th><th>Where</th><th>Pass =</th></tr></thead>
+      <tbody>
+        <tr><td>QC1</td><td>Both flows are ON</td><td>make.powerautomate.com → Solutions → Cloud flows</td><td>Green checkmark ✓</td></tr>
+        <tr><td>QC2</td><td>Office 365 connection status</td><td>Power Automate → Data → Connections</td><td>Shows "Connected"</td></tr>
+        <tr><td>QC3</td><td>HubSpot emails not in Junk</td><td>Open the shared mailbox in Outlook → Junk Email folder</td><td>Folder is empty</td></tr>
+        <tr><td>QC4</td><td>HubSpot workflows are active</td><td>HubSpot → Automation → Workflows</td><td>Status = "On" + enrollment history exists</td></tr>
+        <tr><td>QC5</td><td>Correct trigger in use</td><td>Open each flow → inspect trigger step</td><td>Shows "When a new email arrives in a shared mailbox (V2)"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font:500 15px/1 var(--font,sans-serif);margin-bottom:12px">🔴 Tier 1 — Critical Issues</h3>
+  <div class="md3-card md3-card--outlined" style="margin-bottom:12px">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:8px">Issue #1 — Flow Not Turned On</div>
+    <ol class="md3-steps" style="margin-top:8px">
+      <li><div class="step-num">1</div><div class="step-content">Go to <a href="https://make.powerautomate.com" target="_blank" rel="noopener">make.powerautomate.com</a> → Solutions → your solution → Cloud flows tab</div></li>
+      <li><div class="step-num">2</div><div class="step-content">Look for any flow with a gray "Off" status badge</div></li>
+      <li><div class="step-num">3</div><div class="step-content">Click the ... (three-dot) menu next to the flow → <strong>Turn on</strong></div></li>
+    </ol>
+  </div>
+  <div class="md3-card md3-card--outlined" style="margin-bottom:12px">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:8px">Issue #2 — Connection Not Connected ("Can't sign in")</div>
+    <ol class="md3-steps" style="margin-top:8px">
+      <li><div class="step-num">1</div><div class="step-content">Go to Power Automate → Data → Connections</div></li>
+      <li><div class="step-num">2</div><div class="step-content">Look for a red exclamation mark or "Can't sign in" next to the Office 365 connection</div></li>
+      <li><div class="step-num">3</div><div class="step-content">Click the connection → "Fix connection" → sign in with your Microsoft account</div></li>
+      <li><div class="step-num">4</div><div class="step-content">If it still fails: Go to the connection → Share → add the flow owner with "Can use" permission</div></li>
+    </ol>
+  </div>
+  <div class="md3-card md3-card--outlined" style="margin-bottom:12px">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:8px">Issue #3 — HubSpot Emails Routed to Junk ⚠️ (Most Commonly Missed)</div>
+    <ol class="md3-steps" style="margin-top:8px">
+      <li><div class="step-num">1</div><div class="step-content">Open Outlook Web at <a href="https://outlook.office.com" target="_blank" rel="noopener">outlook.office.com</a></div></li>
+      <li><div class="step-num">2</div><div class="step-content">Switch to the <strong>shared mailbox</strong> (not your personal inbox)</div></li>
+      <li><div class="step-num">3</div><div class="step-content">Click the "Junk Email" folder — look for emails from HubSpot / hubspotemail.net</div></li>
+      <li><div class="step-num">4</div><div class="step-content">If found: Go to <a href="https://security.microsoft.com/tenantAllowBlockList" target="_blank" rel="noopener">security.microsoft.com/tenantAllowBlockList</a> → Allowed senders → Add → Enter <strong>hubspotemail.net</strong></div></li>
+    </ol>
+
+    <!-- Outlook mockup -->
+    <div class="ui-mockup" style="margin-top:12px">
+      <div class="mockup-chrome">
+        <div class="mockup-dots"><div class="mockup-dot dot-red"></div><div class="mockup-dot dot-amber"></div><div class="mockup-dot dot-green"></div></div>
+        <div class="mockup-url">outlook.office.com — Shared Mailbox → Junk Email</div>
+      </div>
+      <div class="mockup-body">
+        <div class="owa-app">
+          <div class="owa-nav">
+            <div class="owa-shared-tag">📫 Shared: bishops-leads</div>
+            <div class="owa-folder">📥 Inbox <span class="owa-badge">0</span></div>
+            <div class="owa-folder sel">🚫 Junk Email <span class="owa-badge">3</span></div>
+            <div class="owa-folder">📤 Sent Items</div>
+          </div>
+          <div class="owa-main">
+            <div class="owa-email">
+              <div class="owa-sender">HubSpot &lt;notifications@hubspotemail.net&gt;</div>
+              <div class="owa-subject">New Franchise Inquiry for Bishops</div>
+            </div>
+            <div class="owa-note">⚠️ If HubSpot emails are landing here, Power Automate never triggers. Add hubspotemail.net to the allow list at security.microsoft.com/tenantAllowBlockList</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MS Security allowlist mockup -->
+    <div class="ui-mockup" style="margin-top:12px">
+      <div class="mockup-chrome">
+        <div class="mockup-dots"><div class="mockup-dot dot-red"></div><div class="mockup-dot dot-amber"></div><div class="mockup-dot dot-green"></div></div>
+        <div class="mockup-url">security.microsoft.com/tenantAllowBlockList → Allowed senders</div>
+      </div>
+      <div class="mockup-body">
+        <div class="ms-sec">
+          <div class="ms-sec-hdr">
+            <div class="ms-logo">Microsoft 365 Defender</div>
+            <div class="ms-title">Tenant Allow/Block Lists</div>
+          </div>
+          <div class="ms-tab-row">
+            <button class="ms-tab active">Domains &amp; addresses</button>
+            <button class="ms-tab">URLs</button>
+            <button class="ms-tab">Files</button>
+          </div>
+          <button class="ms-add">+ Add</button>
+          <table class="ms-tbl">
+            <thead><tr><th>Value</th><th>Type</th><th>Action</th><th>Expires</th></tr></thead>
+            <tbody>
+              <tr style="background:#e8f5e9"><td>hubspotemail.net</td><td>Sender domain</td><td><span style="color:#107c10;font-weight:500">Allow</span></td><td>Never</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font:500 15px/1 var(--font,sans-serif);margin:20px 0 12px">🟡 Tier 2 — Secondary Issues</h3>
+  <div class="md3-card md3-card--outlined" style="margin-bottom:12px">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:4px">Issue #4 — Wrong Email Trigger Connector</div>
+    <p style="font:400 13px/1.6 var(--font,sans-serif)">Must use <strong>"When a new email arrives in a shared mailbox (V2)"</strong> — not V3 or the personal mailbox trigger. Open each flow → click the trigger step → verify.</p>
+  </div>
+  <div class="md3-card md3-card--outlined" style="margin-bottom:12px">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:4px">Issue #5 — Environment Variables Misconfigured</div>
+    <p style="font:400 13px/1.6 var(--font,sans-serif)">Go to Solutions → your solution → Environment variables. Check all 4 email addresses for typos, wrong domain, or blank values.</p>
+  </div>
+  <div class="md3-card md3-card--outlined" style="margin-bottom:12px">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:4px">Issue #6 — Permissions Not Yet Propagated</div>
+    <p style="font:400 13px/1.6 var(--font,sans-serif)">If Full Access was recently granted to the shared mailbox, wait 2 full hours. Then delete and recreate the Office 365 connection to pick up the new permissions.</p>
+  </div>
+  <div class="md3-card md3-card--outlined">
+    <div style="font:500 14px/1 var(--font,sans-serif);margin-bottom:4px">Issue #7 — HubSpot Workflows Not Sending Emails</div>
+    <p style="font:400 13px/1.6 var(--font,sans-serif)">HubSpot → Automation → Workflows → confirm each workflow shows "On" and has recent enrollment history. Manually enroll a test contact to confirm it fires.</p>
+  </div>
+
+  <h3 style="font:500 15px/1 var(--font,sans-serif);margin:20px 0 12px">🟢 Tier 3 — Advanced Edge Cases (Escalate to Tyler)</h3>
+  <div class="md3-table-wrap">
+    <table class="md3-table">
+      <thead><tr><th>Issue</th><th>Signal</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Conditional Access / MFA</td><td>Sign-in fails even after "Fix connection"</td><td>IT Admin must create exclusion policy for Power Automate service principal</td></tr>
+        <tr><td>OAuth Consent Blocked</td><td>Admin approval banner appears</td><td>Global Admin must grant tenant-wide consent at portal.azure.com</td></tr>
+        <tr><td>Solution Import Failed</td><td>Flows exist but behave erratically</td><td>Re-import the solution package; check import logs for errors</td></tr>
+        <tr><td>ZAP (Zero-hour Auto Purge)</td><td>Emails arrive in Inbox but disappear within seconds</td><td>Disable ZAP for hubspotemail.net in Defender settings</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 6: QUICK DECISION TABLE -->
+<div style="margin-top:32px;margin-bottom:8px">
+  <h2 class="section-heading">Quick Decision Table</h2>
+  <p class="section-sub">Not sure which step to take? Find your situation and go straight to the fix.</p>
+</div>
+<div class="md3-card md3-card--elevated">
+  <div class="md3-table-wrap">
+    <table class="md3-table">
+      <thead>
+        <tr>
+          <th>What you're seeing</th>
+          <th>Most likely issue</th>
+          <th>Fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>No runs in Power Automate run history at all</td><td>Flow is Off, or emails stuck in Junk</td><td><a href="#phase2">Phase 1 → QC1 + Issue #3</a></td></tr>
+        <tr><td>Flow shows "On" but zero runs triggered</td><td>HubSpot emails landing in Junk folder</td><td>Phase 1 → Issue #3 (allowlist hubspotemail.net)</td></tr>
+        <tr><td>Runs show "Failed" with authentication error</td><td>Office 365 connection expired</td><td>Phase 1 → Issue #2 (fix connection / sign in again)</td></tr>
+        <tr><td>Runs show "Succeeded" but FranConnect gets garbled data</td><td>Compose expressions using wrong split pattern</td><td><a href="#phase2">Phase 2 → Fix Compose Expressions</a></td></tr>
+        <tr class="row-phase2"><td><strong>FranConnect fields contain label + "HubSpot" + CDN URL fragment</strong></td><td><strong>first(split()) returning index 0 — the header junk</strong></td><td><strong><a href="#option-a">Option A</a> + <a href="#option-f">Option F</a> (Olivia's current situation)</strong></td></tr>
+        <tr class="row-phase2"><td><strong>Fix works but breaks again after a few weeks</strong></td><td><strong>HubSpot updated their email template</strong></td><td><strong><a href="#option-f">Option F</a> — switch to plain-text HubSpot email</strong></td></tr>
+        <tr><td>Want a permanent, maintenance-free solution</td><td>Email-parsing is fundamentally fragile</td><td><a href="#option-c">Option C</a> — FranConnect API or Marketplace connector</td></tr>
+        <tr><td>None of the above fixes it</td><td>Advanced edge case (Tier 3)</td><td>Escalate to Tyler with screenshots (see below)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 7: ESCALATION CARD -->
+<div style="margin-top:32px">
+  <h2 class="section-heading">When to Escalate to Tyler</h2>
+  <p class="section-sub">If you've worked through all the steps above and it's still not working, here's exactly how to hand it off.</p>
+</div>
+<div class="esc-card" id="escalation">
+  <div class="esc-header">
+    <div class="esc-avatar">👨‍💻</div>
+    <div class="esc-title">Tyler's Got You</div>
+    <div class="esc-sub">HTT Brands IT Director &nbsp;·&nbsp; tyler.granlund@httbrands.com</div>
+  </div>
+  <div class="esc-body">
+    <p style="font:400 15px/1.7 var(--font,sans-serif);margin-bottom:16px">If you've gone through the Phase 2 steps and the Phase 1 reference checks and still can't get clean data into FranConnect, Tyler can jump in. To make the handoff fast and avoid back-and-forth, send screenshots of the specific things below in one email — it cuts resolution time from days to hours.</p>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin-bottom:12px">Screenshot Checklist — Send All 6</h4>
+    <ol class="checklist">
+      <li><div class="ck-num">1</div><div>The <strong>flow run history page</strong> — showing the most recent runs and their status (success/fail icons)</div></li>
+      <li><div class="ck-num">2</div><div>The <strong>expanded Strip HTML action output</strong> — the full text output, not truncated. Copy it from the "Outputs" section of the action in run history.</div></li>
+      <li><div class="ck-num">3</div><div>The <strong>expanded Compose - First Name action</strong> — showing both the expression (in the "Inputs" section) and what it evaluated to (the actual output value)</div></li>
+      <li><div class="ck-num">4</div><div>The <strong>FranConnect test lead record</strong> — screenshot of the Primary Info fields showing what's actually being stored</div></li>
+      <li><div class="ck-num">5</div><div>The <strong>HubSpot workflow action settings</strong> — the "Send internal email notification" action showing the current email body template</div></li>
+      <li><div class="ck-num">6</div><div>Any <strong>error message</strong> visible in the run — red text, exclamation marks, or "The expression evaluated to" messages</div></li>
+    </ol>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin:20px 0 12px">How to Take Screenshots</h4>
+    <div class="platform-grid">
+      <div class="platform-card platform-card--win">
+        <h4>🪟 Windows</h4>
+        <p style="font:400 13px/1.6 var(--font,sans-serif);margin-bottom:8px">Press <kbd>Windows</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> to open the snipping tool. Click and drag to select any area of the screen. The screenshot is automatically copied to your clipboard — paste it directly into your email with <kbd>Ctrl</kbd> + <kbd>V</kbd>.</p>
+      </div>
+      <div class="platform-card platform-card--mac">
+        <h4>🍎 Mac</h4>
+        <p style="font:400 13px/1.6 var(--font,sans-serif);margin-bottom:8px">Press <kbd>⌘ Command</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd> to turn your cursor into a crosshair. Click and drag to capture an area. The screenshot saves to your Desktop automatically — attach it to your email.</p>
+      </div>
+    </div>
+
+    <h4 style="font:500 14px/1 var(--font,sans-serif);margin:20px 0 10px">Email Template — Copy and Fill In</h4>
+    <div class="email-tpl">
+      <div class="email-subject">
+        <span class="email-subject-label">Subject:</span>
+        <span class="email-subject-val">Power Automate Bishops Flow — Data Issue [your name]</span>
+      </div>
+      <div style="position:relative">
+        <button class="copy-btn" style="position:absolute;top:0;right:0" data-copy="Hi Tyler,&#10;&#10;I've been working through the FranConnect integration guide and got stuck on the data issue — FranConnect is still receiving garbled field values.&#10;&#10;Here's what I've tried:&#10;- [ ] Checked the Strip HTML output (describe what it shows)&#10;- [ ] Updated the Compose expressions with the two-stage split pattern&#10;- [ ] Updated the HubSpot workflow to send plain text (yes/no)&#10;&#10;What I'm still seeing:&#10;[Describe: what fields are wrong, what values FranConnect is storing, any error messages]&#10;&#10;Screenshots attached:&#10;1. Flow run history&#10;2. Strip HTML output&#10;3. Compose - First Name action (expression + output)&#10;4. FranConnect test lead record&#10;5. HubSpot workflow email body&#10;6. Any error messages&#10;&#10;Thanks,&#10;[Your name]">Copy</button>
+        <pre style="font:400 13px/1.7 var(--font-mono,monospace);color:var(--md-on-surface);white-space:pre-wrap">Hi Tyler,
+
+I've been working through the FranConnect integration guide and got stuck on the data issue — FranConnect is still receiving garbled field values.
+
+Here's what I've tried:
+- [ ] Checked the Strip HTML output (describe what it shows)
+- [ ] Updated the Compose expressions with the two-stage split pattern
+- [ ] Updated the HubSpot workflow to send plain text (yes/no)
+
+What I'm still seeing:
+[Describe: what fields are wrong, what values FranConnect is storing, any error messages]
+
+Screenshots attached:
+1. Flow run history
+2. Strip HTML output
+3. Compose - First Name action (expression + output)
+4. FranConnect test lead record
+5. HubSpot workflow email body
+6. Any error messages
+
+Thanks,
+[Your name]</pre>
+      </div>
+    </div>
+
+    <div class="md3-callout callout-info" style="margin-top:16px">
+      <div class="md3-callout__icon">💡</div>
+      <div>
+        <div class="md3-callout__title">What to expect after you send</div>
+        <div class="md3-callout__body">Tyler will review the screenshots and either send back a specific fix, or schedule a brief screen-share to walk through it together. Having all 6 screenshots in one email usually means a same-day turnaround.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 8: QUICK REFERENCE (collapsible) -->
+<button class="disclosure-btn" onclick="toggleDisclosure(this)" aria-expanded="false">
+  <span>📌 Quick Reference — Key URLs &amp; Contacts</span>
+  <span class="disclosure-icon">▼</span>
+</button>
+<div class="disclosure-content">
+  <table class="ref-table">
+    <tbody>
+      <tr><td>Power Automate</td><td><a href="https://make.powerautomate.com" target="_blank" rel="noopener">make.powerautomate.com</a></td></tr>
+      <tr><td>Outlook Web (shared mailbox)</td><td><a href="https://outlook.office.com" target="_blank" rel="noopener">outlook.office.com</a></td></tr>
+      <tr><td>Microsoft Security (allowlist)</td><td><a href="https://security.microsoft.com/tenantAllowBlockList" target="_blank" rel="noopener">security.microsoft.com/tenantAllowBlockList</a></td></tr>
+      <tr><td>HubSpot (workflows)</td><td><a href="https://app.hubspot.com/workflows" target="_blank" rel="noopener">app.hubspot.com/workflows</a></td></tr>
+      <tr><td>FranConnect Help Desk</td><td><a href="https://helpdesk.franconnect.com" target="_blank" rel="noopener">helpdesk.franconnect.com</a></td></tr>
+      <tr><td>FranConnect Lead Email</td><td>Bishops@myfranconnect.com</td></tr>
+      <tr><td>Tyler Granlund (IT Director)</td><td><a href="mailto:tyler.granlund@httbrands.com">tyler.granlund@httbrands.com</a></td></tr>
+      <tr><td>Olivia D'Andrea (VP Operations)</td><td><a href="mailto:OliviaDAndrea@BrandOneFD.com">OliviaDAndrea@BrandOneFD.com</a></td></tr>
+      <tr><td>HubSpot sender domain</td><td>hubspotemail.net</td></tr>
+      <tr><td>Required trigger (Power Automate)</td><td>When a new email arrives in a shared mailbox (V2)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <p><strong>BrandONE FranConnect Integration Guide</strong></p>
+  <p>Questions? Email <a href="mailto:tyler.granlund@httbrands.com">tyler.granlund@httbrands.com</a> or <a href="mailto:helpdesk@franconnect.com">helpdesk@franconnect.com</a></p>
+  <p class="footer-meta">HTT Brands &copy; 2026 &nbsp;&middot;&nbsp; Updated March 2026 &nbsp;&middot;&nbsp; ADR-008 &nbsp;&middot;&nbsp; Solutions Architect + Experience Architect reviewed</p>
+</footer>
+
+<script>
+// 1. Copy buttons — all [data-copy] buttons
+function initCopyButtons() {
+  document.querySelectorAll('[data-copy]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var text = btn.getAttribute('data-copy');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          var orig = btn.textContent;
+          btn.textContent = '✓ Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = orig;
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      } else {
+        // Fallback for older browsers
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+        var orig = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+    });
+  });
+
+  // expr-copy buttons
+  document.querySelectorAll('.expr-copy').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var text = btn.getAttribute('data-copy');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          btn.textContent = '✓ Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      }
+    });
+  });
+}
+
+// 2. Expandable pros/cons and gotchas
+function toggleExpand(btn) {
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !expanded);
+  var target = btn.nextElementSibling;
+  if (target && target.classList.contains('expandable')) {
+    target.classList.toggle('is-open', !expanded);
+  }
+}
+
+// 3. Disclosure collapsibles (Phase 1 reference, Quick Reference)
+function toggleDisclosure(btn) {
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !expanded);
+  var content = btn.nextElementSibling;
+  if (content && content.classList.contains('disclosure-content')) {
+    content.classList.toggle('is-open', !expanded);
+  }
+  var icon = btn.querySelector('.disclosure-icon');
+  if (icon) {
+    icon.style.transform = expanded ? '' : 'rotate(180deg)';
+  }
+}
+
+// 4. Before/after tabs (FranConnect record)
+function showPanel(tab, panelId) {
+  var group = tab.closest('.ba-group');
+  if (!group) return;
+  group.querySelectorAll('.ba-tab').forEach(function(t) { t.classList.remove('active'); });
+  group.querySelectorAll('.ba-panel').forEach(function(p) { p.classList.remove('active'); });
+  tab.classList.add('active');
+  var panel = document.getElementById(panelId);
+  if (panel) panel.classList.add('active');
+}
+
+// 5. Smooth scroll for all internal anchor links
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initCopyButtons();
+  initSmoothScroll();
+});
+</script>
 </body>
 </html>
